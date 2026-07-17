@@ -1,0 +1,9 @@
+# Configurações locais do Claude Code
+.claude/
+
+# Dependências (se algum dia houver build)
+node_modules/
+
+# Sistema
+Thumbs.db
+.DS_Store
