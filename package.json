@@ -1,0 +1,27 @@
+{
+  "name": "site-aurius",
+  "version": "1.0.0",
+  "description": "Site institucional imersivo e cinematográfico da AURIUS — software house especializada em sites, aplicativos, ERP, e-commerce e automação.",
+  "private": true,
+  "scripts": {
+    "lint:js": "eslint js",
+    "lint:css": "stylelint \"css/**/*.css\"",
+    "lint:html": "html-validate \"*.html\"",
+    "lint:links": "linkinator index.html --retry --skip \"wa\\.me\"",
+    "test": "npm run lint:html && npm run lint:css && npm run lint:js && npm run lint:links"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Aurius-Company-Tech/Site-Aurius.git"
+  },
+  "license": "MIT",
+  "type": "commonjs",
+  "devDependencies": {
+    "eslint": "^9.39.5",
+    "globals": "^17.8.0",
+    "html-validate": "^11.6.1",
+    "linkinator": "^8.0.3",
+    "stylelint": "^17.14.1",
+    "stylelint-config-standard": "^40.0.0"
+  }
+}

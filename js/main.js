@@ -156,14 +156,15 @@
   /* Menu mobile */
   var menuToggle = document.getElementById("menu-toggle");
   var mobileMenu = document.getElementById("mobile-menu");
-  function closeMenu() {
-    menuToggle.classList.remove("open"); mobileMenu.classList.remove("open");
-    menuToggle.setAttribute("aria-expanded", "false"); mobileMenu.setAttribute("aria-hidden", "true");
-  }
-  menuToggle.addEventListener("click", function () {
-    var open = !mobileMenu.classList.contains("open");
+  function setMenu(open) {
     menuToggle.classList.toggle("open", open); mobileMenu.classList.toggle("open", open);
     menuToggle.setAttribute("aria-expanded", String(open)); mobileMenu.setAttribute("aria-hidden", String(!open));
+    // inert tira os links da ordem de tabulação enquanto o menu está fora da tela
+    mobileMenu.inert = !open;
+  }
+  function closeMenu() { setMenu(false); }
+  menuToggle.addEventListener("click", function () {
+    setMenu(!mobileMenu.classList.contains("open"));
   });
 
   /* Âncoras suaves */

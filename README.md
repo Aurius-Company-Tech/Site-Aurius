@@ -80,6 +80,31 @@ npx http-server -p 4174 -c-1
 8. **Contato** — formulário glassmorphism com botão magnético
 9. **Footer** — constelação animada
 
+## ✅ CI — verificação automática de erros
+
+Toda atualização (push em qualquer branch, pull request ou execução manual) dispara
+o workflow [`.github/workflows/ci.yml`](.github/workflows/ci.yml), que alerta se houver erro:
+
+| Check | Ferramenta | O que pega |
+|---|---|---|
+| HTML | `html-validate` | marcação inválida, atributos errados, problemas de acessibilidade |
+| CSS | `stylelint` | sintaxe quebrada, propriedades e valores inválidos |
+| JS | `eslint` | variáveis/funções indefinidas (typos), erros de sintaxe |
+| Links | `linkinator` | imagens, CSS, JS e links apontando para 404 |
+| Performance | Lighthouse | pontuação e orçamento de peso (informativo, não bloqueia) |
+
+Os quatro primeiros rodam com `if: always()`, então um PR mostra **todos** os erros
+de uma vez, em vez de um por execução.
+
+Rodar localmente antes de commitar:
+
+```bash
+npm install   # apenas na primeira vez
+npm test      # roda os quatro checks
+```
+
+Ou individualmente: `npm run lint:html`, `lint:css`, `lint:js`, `lint:links`.
+
 ---
 
 © 2026 Aurius · Tecnologia que orbita o seu negócio
