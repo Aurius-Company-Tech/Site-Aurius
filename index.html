@@ -25,10 +25,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Inter:wght@400&display=swap" rel="stylesheet">
 
   <link rel="preload" href="assets/logo.webp" as="image" fetchpriority="high">
   <link rel="stylesheet" href="css/style.css">
+
+  <!-- Fonte: display=swap evita texto invisível; media=print+onload evita bloquear o first paint -->
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Inter:wght@400&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Inter:wght@400&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Inter:wght@400&display=swap"></noscript>
 </head>
 <body>
 
@@ -366,11 +370,13 @@
     <div class="footer-bottom">© 2026 Aurius · Tecnologia que orbita o seu negócio</div>
   </footer>
 
-  <script src="https://cdn.jsdelivr.net/npm/three@0.149.0/build/three.min.js" defer></script>
+  <!-- GSAP/Lenis: necessários de imediato para a intro e o scroll -->
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js" defer></script>
-  <script src="js/galaxy.js" defer></script>
+  <!-- Galáxia WebGL: decorativa e pesada (three.js) — carrega em paralelo sem atrasar o resto -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.149.0/build/three.min.js" async></script>
+  <script src="js/galaxy.js" async></script>
   <script src="js/main.js" defer></script>
 </body>
 </html>
