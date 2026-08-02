@@ -11,13 +11,18 @@
 
   gsap.registerPlugin(ScrollTrigger);
 
-  /* ============ Galáxia WebGL ============ */
+  /* ============ Galáxia WebGL (three.js carrega async; entra quando pronto) ============ */
   var galaxyWrap = document.getElementById("galaxy-wrap");
-  var galaxyApi = AuriusGalaxy.init({
-    canvas: document.getElementById("galaxy-canvas"),
-    count: isMobile ? 26000 : 90000,
-    reducedMotion: prefersReduced
-  });
+  var galaxyApi = null;
+  (function initGalaxyWhenReady() {
+    if (!window.THREE || !window.AuriusGalaxy) { requestAnimationFrame(initGalaxyWhenReady); return; }
+    galaxyApi = AuriusGalaxy.init({
+      canvas: document.getElementById("galaxy-canvas"),
+      count: isMobile ? 12000 : 60000,
+      reducedMotion: prefersReduced,
+      maxPixelRatio: isMobile ? 1 : 1.6
+    });
+  })();
 
   /* ============ Lenis smooth scroll ============ */
   var lenis = null;
@@ -100,13 +105,15 @@
     })();
   })();
 
-  var loadDone = false;
-  window.addEventListener("load", function () { loadDone = true; });
+  // Pronto quando fontes + imagem do hero (o LCP) carregarem — não esperamos
+  // scripts decorativos de terceiros (three.js), que carregam à parte.
+  var heroLogoImg = document.querySelector(".hero-logo");
 
   var plStart = performance.now(), plShown = 0;
   (function plTick() {
     var elapsed = (performance.now() - plStart) / 1000;
-    if (elapsed > 3.2 || document.readyState === "complete") loadDone = true; // segurança
+    var loadDone = elapsed > 2.5 ||
+      ((!document.fonts || document.fonts.status === "loaded") && (!heroLogoImg || heroLogoImg.complete));
     var target = loadDone ? 100 : Math.min(90, elapsed * 55);
     plShown += (target - plShown) * 0.16;
     if (plShown > 99.4) plShown = 100;
@@ -156,14 +163,15 @@
   /* Menu mobile */
   var menuToggle = document.getElementById("menu-toggle");
   var mobileMenu = document.getElementById("mobile-menu");
-  function closeMenu() {
-    menuToggle.classList.remove("open"); mobileMenu.classList.remove("open");
-    menuToggle.setAttribute("aria-expanded", "false"); mobileMenu.setAttribute("aria-hidden", "true");
-  }
-  menuToggle.addEventListener("click", function () {
-    var open = !mobileMenu.classList.contains("open");
+  function setMenu(open) {
     menuToggle.classList.toggle("open", open); mobileMenu.classList.toggle("open", open);
     menuToggle.setAttribute("aria-expanded", String(open)); mobileMenu.setAttribute("aria-hidden", String(!open));
+    // inert tira os links da ordem de tabulação enquanto o menu está fora da tela
+    mobileMenu.inert = !open;
+  }
+  function closeMenu() { setMenu(false); }
+  menuToggle.addEventListener("click", function () {
+    setMenu(!mobileMenu.classList.contains("open"));
   });
 
   /* Âncoras suaves */
@@ -295,6 +303,7 @@
   function easeInOut(t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
 
   var galaxyHidden = false;
+  var starfieldVisible = false;
 
   function applyTransition(p) {
     var e = easeInOut(p);
@@ -353,15 +362,17 @@
       onUpdate: function (self) { targetP = self.progress; },
       onLeave: function () {
         galaxyHidden = true;
+        starfieldVisible = true;
         gsap.to(galaxyWrap, {
           autoAlpha: 0, duration: 0.5,
-          onComplete: function () { if (galaxyHidden) galaxyApi.setActive(false); }
+          onComplete: function () { if (galaxyHidden && galaxyApi) galaxyApi.setActive(false); }
         });
         gsap.to(starfield, { autoAlpha: 0.9, duration: 1 });
       },
       onEnterBack: function () {
         galaxyHidden = false;
-        galaxyApi.setActive(true);
+        starfieldVisible = false;
+        if (galaxyApi) galaxyApi.setActive(true);
         gsap.to(galaxyWrap, { autoAlpha: 1, duration: 0.4 });
         gsap.to(starfield, { autoAlpha: 0, duration: 0.6 });
       },
@@ -376,6 +387,7 @@
     galaxyWrap.style.position = "absolute";
     applyTransition(1);
     starfield.style.opacity = 0.9;
+    starfieldVisible = true;
   }
 
   /* ============ Campo de estrelas 2D (pós-transição) ============ */
@@ -400,7 +412,7 @@
     var drewOnce = false;
     (function draw(t) {
       requestAnimationFrame(draw);
-      if (getComputedStyle(starfield).opacity === "0") { drewOnce = false; return; }
+      if (!starfieldVisible) { drewOnce = false; return; }
       if (prefersReduced && drewOnce) return;
       drewOnce = true;
       ctx.clearRect(0, 0, starfield.width, starfield.height);

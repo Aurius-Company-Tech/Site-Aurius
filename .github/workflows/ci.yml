@@ -1,0 +1,75 @@
+name: CI
+
+# Roda em toda atualização: push em qualquer branch, PRs e execução manual.
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+  workflow_dispatch:
+
+# Cancela execuções antigas da mesma branch quando um novo push chega.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  qualidade:
+    name: Verificação de erros
+    runs-on: ubuntu-latest
+    steps:
+      - name: Baixar o código
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - name: Instalar dependências
+        run: npm ci
+
+      # Os quatro checks rodam sempre (if: always()), assim um PR mostra
+      # TODOS os erros de uma vez em vez de um por execução.
+      - name: "HTML: marcação e acessibilidade"
+        if: always()
+        run: npm run lint:html
+
+      - name: "CSS: sintaxe e propriedades inválidas"
+        if: always()
+        run: npm run lint:css
+
+      - name: "JS: variáveis indefinidas e erros de sintaxe"
+        if: always()
+        run: npm run lint:js
+
+      - name: Links e assets quebrados (404)
+        if: always()
+        run: npm run lint:links
+
+  performance:
+    name: Performance (Lighthouse)
+    runs-on: ubuntu-latest
+    # Informativo: pontuação de laboratório oscila em CI, então não bloqueia o merge.
+    continue-on-error: true
+    steps:
+      - name: Baixar o código
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Subir servidor estático
+        run: |
+          npx --yes http-server . -p 8080 --silent &
+          npx --yes wait-on http://127.0.0.1:8080/index.html --timeout 60000
+
+      - name: Rodar Lighthouse
+        uses: treosh/lighthouse-ci-action@v12
+        with:
+          urls: http://127.0.0.1:8080/index.html
+          uploadArtifacts: true
+          temporaryPublicStorage: true
+          budgetPath: ./lighthouse-budget.json

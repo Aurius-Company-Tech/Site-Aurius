@@ -35,7 +35,7 @@
       powerPreference: "high-performance"
     });
     renderer.setClearColor(0x000000, 0);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.6));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, opts.maxPixelRatio || 1.6));
 
     var scene = new THREE.Scene();
     var camera = new THREE.PerspectiveCamera(58, 1, 0.1, 200);
