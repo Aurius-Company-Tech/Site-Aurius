@@ -6,13 +6,11 @@ Site institucional imersivo e cinematográfico da **AURIUS** — software house 
 
 ## ✨ Destaques
 
-- **Galáxia em WebGL/Three.js** — sistema com ~90 mil partículas: núcleo dourado que transiciona para violeta nos braços espirais (o mesmo degradê da logo), campo de estrelas em múltiplas camadas com twinkle, estrelas cadentes e parallax 3D com o mouse.
-- **Transição cinematográfica galáxia → notebook** — ao rolar, o scroll é sequestrado (GSAP ScrollTrigger com `pin` + `scrub`) e a câmera "recua": a galáxia encolhe até se encaixar, via homografia (`matrix3d`), exatamente dentro da tela de um notebook sobre uma mesa de madeira, com o brilho do núcleo refletindo no teclado.
+- **Galáxia em WebGL/Three.js** — sistema com ~42 mil partículas no desktop e ~9 mil no mobile: núcleo dourado que transiciona para violeta nos braços espirais (o mesmo degradê da logo), campo de estrelas em múltiplas camadas com twinkle, estrelas cadentes e parallax 3D com o mouse.
 - **Scroll suave** com Lenis em todo o site.
-- **Preloader** com partículas convergindo e porcentagem de carregamento.
-- Linha do tempo **horizontal** do processo (Descoberta → Design → Desenvolvimento → Lançamento → Órbita) com um cometa percorrendo a rota conforme o scroll.
-- Portfólio com reveal em `clip-path` e parallax individual por card, contadores animados com partículas douradas, carrossel de depoimentos, botão magnético no CTA, cursor customizado com trilha estelar e constelação animada no footer.
-- **Som ambiente espacial opcional** (WebAudio, toggle na navegação).
+- **Hero sem preloader**: proposta de valor, CTAs e prova social aparecem em < 1 s (entrada em CSS); a galáxia é montada depois, em momento ocioso, e entra com fade.
+- Linha do tempo **horizontal** do processo (Descoberta → Design → Desenvolvimento → Lançamento → Evolução) com um marcador de progresso percorrendo a linha conforme o scroll.
+- Portfólio com reveal em `clip-path` e parallax individual por card, contadores animados com partículas douradas, carrossel de depoimentos, botão magnético no CTA e constelação animada no footer.
 - Responsivo, com versão simplificada dos efeitos no mobile e suporte a `prefers-reduced-motion`.
 
 ## 🎨 Identidade visual
@@ -52,10 +50,9 @@ As bibliotecas são carregadas via CDN (jsDelivr).
 │   ├── galaxy.js           # Galáxia de partículas em Three.js
 │   └── main.js             # Preloader, transições, scroll e interações
 ├── assets/
-│   ├── logo-glow.png       # Logo com fundo transparente (usada no site)
+│   ├── logo.webp           # Logo com fundo transparente (418×620, usada no site)
 │   ├── favicon.png
 │   ├── galaxia.webp        # Referência da galáxia (OG image)
-│   └── laptop.webp         # Foto do notebook usada na transição
 └── prompt-site-aurius.md   # Especificação/briefing do projeto
 ```
 
@@ -71,14 +68,13 @@ npx http-server -p 4174 -c-1
 ## 📄 Seções
 
 1. **Hero** — galáxia em tela cheia com reveal da logo e tagline
-2. **Transição** — a galáxia entra na tela do notebook ("Nós criamos universos digitais")
-3. **Serviços** — Sites · Aplicativos · ERP · E-commerce · Automação
-4. **Processo** — timeline horizontal em 5 etapas
-5. **Portfólio** — projetos em grid com parallax
-6. **Números** — prova social com contadores animados
-7. **Depoimentos** — carrossel com fade estelar
-8. **Contato** — formulário glassmorphism com botão magnético
-9. **Footer** — constelação animada
+2. **Serviços** — Sites · Aplicativos · ERP · E-commerce · Automação
+3. **Processo** — timeline horizontal em 5 etapas
+4. **Portfólio** — projetos em grid com parallax
+5. **Números** — prova social com contadores animados
+6. **Depoimentos** — carrossel com fade estelar
+7. **Contato** — formulário glassmorphism com botão magnético
+8. **Footer** — constelação animada
 
 ## ✅ CI — verificação automática de erros
 

@@ -134,8 +134,8 @@
     var starLayers = [];
     var layerDefs = [
       { count: Math.floor(count * 0.02) + 500, rMin: 22, rMax: 38, size: 0.10, speed: 1.6 },
-      { count: Math.floor(count * 0.013) + 320, rMin: 34, rMax: 52, size: 0.16, speed: 1.1 },
-      { count: Math.floor(count * 0.006) + 160, rMin: 48, rMax: 70, size: 0.26, speed: 0.7 }
+      { count: Math.floor(count * 0.013) + 320, rMin: 34, rMax: 52, size: 0.12, speed: 1.1 },
+      { count: Math.floor(count * 0.006) + 160, rMin: 48, rMax: 70, size: 0.17, speed: 0.7 }
     ];
     var starTints = [new THREE.Color("#FFFFFF"), new THREE.Color("#F2E27E"), new THREE.Color("#B794F6"), new THREE.Color("#9db4ff")];
 
