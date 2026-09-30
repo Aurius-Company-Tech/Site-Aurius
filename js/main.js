@@ -524,21 +524,92 @@
 
   var form = document.getElementById("contact-form");
   if (form) {
+    /* Envio via Web3Forms (AJAX). Em falha, oferece o WhatsApp para o lead não se perder. */
+    var FORM_ENDPOINT = "https://api.web3forms.com/submit";
+    var WA_URL = "https://wa.me/5596981163599";
+    var fb = form.querySelector(".form-feedback");
+    var submitBtn = form.querySelector("button[type=submit]");
+    var sending = false;
+
+    function feedback(text, isError) {
+      fb.textContent = text;
+      fb.classList.toggle("is-error", !!isError);
+    }
+    form.addEventListener("input", function (e) {
+      if (e.target.getAttribute("aria-invalid")) e.target.removeAttribute("aria-invalid");
+    });
+
     form.addEventListener("submit", function (e) {
       e.preventDefault();
-      var fb = form.querySelector(".form-feedback");
-      var nome = form.nome.value.trim(), email = form.email.value.trim(), msg = form.mensagem.value.trim();
-      if (!nome || !email || !msg || email.indexOf("@") < 1) {
-        fb.textContent = "Preencha nome, e-mail válido e uma breve descrição do projeto.";
+      if (sending) return;
+      if (form.botcheck.checked) return; // bot
+
+      var invalid = [];
+      var email = form.email.value.trim();
+      [form.nome, form.email, form.tipo, form.mensagem].forEach(function (f) {
+        var bad = !f.value.trim() || (f === form.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email));
+        if (bad) { f.setAttribute("aria-invalid", "true"); invalid.push(f); }
+      });
+      if (invalid.length) {
+        feedback("Preencha nome, e-mail válido, tipo de projeto e uma breve descrição.", true);
+        invalid[0].focus();
         return;
       }
-      fb.textContent = "Obrigado, " + nome.split(" ")[0] + "! Recebemos sua mensagem e retornaremos em até 24 horas úteis.";
-      form.reset();
-      if (!prefersReduced && magBtn) {
-        gsap.fromTo(magBtn, { scale: 1 }, { scale: 1.04, duration: 0.18, yoyo: true, repeat: 1, ease: "power2.inOut" });
-      }
+
+      var nome = form.nome.value.trim();
+      var data = {};
+      new FormData(form).forEach(function (v, k) { data[k] = typeof v === "string" ? v.trim() : v; });
+      data.replyto = email;
+
+      sending = true;
+      submitBtn.setAttribute("aria-busy", "true");
+      feedback("Enviando…");
+
+      fetch(FORM_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify(data)
+      })
+        .then(function (res) {
+          return res.json().catch(function () { return {}; }).then(function (json) {
+            if (!res.ok || json.success !== true) throw new Error(json.message || "HTTP " + res.status);
+          });
+        })
+        .then(function () {
+          feedback("Obrigado, " + nome.split(" ")[0] + "! Recebemos sua mensagem e retornaremos em até 24 horas úteis.");
+          form.reset();
+          if (!prefersReduced && magBtn) {
+            gsap.fromTo(magBtn, { scale: 1 }, { scale: 1.04, duration: 0.18, yoyo: true, repeat: 1, ease: "power2.inOut" });
+          }
+        })
+        .catch(function () {
+          var text = "Olá! Sou " + nome + " (" + email + "). Projeto: " + data.tipo + ". " + data.mensagem;
+          fb.classList.add("is-error");
+          fb.textContent = "Não conseguimos enviar agora. ";
+          var a = document.createElement("a");
+          a.href = WA_URL + "?text=" + encodeURIComponent(text);
+          a.target = "_blank";
+          a.rel = "noopener";
+          a.textContent = "Envie pelo WhatsApp com um clique.";
+          fb.appendChild(a);
+        })
+        .then(function () {
+          sending = false;
+          submitBtn.removeAttribute("aria-busy");
+        });
     });
   }
+
+  /* ============ WhatsApp flutuante: aparece depois do hero ============ */
+  (function waFloat() {
+    var btn = document.querySelector(".wa-float");
+    var hero = document.getElementById("hero");
+    if (!btn) return;
+    if (!hero || !("IntersectionObserver" in window)) { btn.classList.add("is-visible"); return; }
+    new IntersectionObserver(function (entries) {
+      btn.classList.toggle("is-visible", !entries[0].isIntersecting);
+    }, { threshold: 0.35 }).observe(hero);
+  })();
 
   /* ============ Footer: constelação ============ */
   (function constellation() {
