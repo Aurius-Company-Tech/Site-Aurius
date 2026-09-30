@@ -225,31 +225,114 @@
     });
   });
 
-  if (!prefersReduced) {
-    document.querySelectorAll("[data-reveal]").forEach(function (el) {
-      gsap.set(el, { autoAlpha: 0, y: 26 });
-      ScrollTrigger.create({
-        trigger: el, start: "top 88%", once: true,
-        onEnter: function () { gsap.to(el, { autoAlpha: 1, y: 0, duration: 0.9, ease: "power3.out" }); }
+  /* ============ Reveal on scroll (IntersectionObserver) ============
+     [data-reveal] → fade + subida; [data-stagger] → filhos em cascata;
+     divisores e a marca do footer → traço/máscara. A animação em si é CSS
+     (classe .is-in); aqui só marcamos quando o elemento entra na viewport. */
+  var revealPassed = null;
+  if (!prefersReduced && "IntersectionObserver" in window) {
+    document.documentElement.classList.add("js-rv");
+    var rvTargets = [];
+    document.querySelectorAll("[data-reveal], .section-divider, .footer-mark").forEach(function (el) { rvTargets.push(el); });
+    document.querySelectorAll("[data-stagger]").forEach(function (group) {
+      Array.prototype.forEach.call(group.children, function (child, i) {
+        child.style.setProperty("--rv-d", (i * 0.09) + "s");
+        rvTargets.push(child);
       });
     });
+    var reveal = function (el) {
+      el.classList.add("is-in");
+      rvIO.unobserve(el);
+      var k = rvTargets.indexOf(el);
+      if (k > -1) rvTargets.splice(k, 1);
+    };
+    var rvIO = new IntersectionObserver(function (entries) {
+      var any = false;
+      entries.forEach(function (en) { if (en.isIntersecting) { reveal(en.target); any = true; } });
+      if (any && revealPassed) revealPassed();
+    }, { rootMargin: "0px 0px -12% 0px" });
+    rvTargets.forEach(function (el) { rvIO.observe(el); });
+    // salto brusco (tecla End, busca, âncora sem Lenis) pode "pular" um elemento
+    // sem que ele chegue a cruzar a viewport: revela o que já ficou para trás
+    revealPassed = function () {
+      rvTargets.slice().forEach(function (el) {
+        if (el.getBoundingClientRect().top < innerHeight) reveal(el);
+      });
+    };
 
-    // cards de serviços: entrada escalonada discreta
-    ScrollTrigger.create({
-      trigger: ".cards-grid", start: "top 82%", once: true,
-      onEnter: function () {
-        gsap.fromTo(".cards-grid .card",
-          { autoAlpha: 0, y: 40 },
-          { autoAlpha: 1, y: 0, duration: 0.8, stagger: 0.08, ease: "power3.out" });
-      }
+    // cabeçalhos de seção: parallax leve (fora da seção fixada do processo)
+    document.querySelectorAll("#servicos .section-head, #portfolio .section-head, #depoimentos .section-head").forEach(function (head) {
+      gsap.fromTo(head, { y: 50 }, {
+        y: -40, ease: "none",
+        scrollTrigger: { trigger: head.parentElement, start: "top bottom", end: "center top", scrub: true }
+      });
     });
   }
 
-  /* ============ Tilt 3D nos cards ============ */
+  /* ============ Seção ativa: luz ambiente, nav, trilho ============ */
+  (function activeSection() {
+    var root = document.documentElement;
+    var ids = ["hero", "servicos", "processo", "portfolio", "numeros", "depoimentos", "contato"];
+    var navList = document.querySelector(".nav-links");
+    var indicator = document.querySelector(".nav-indicator");
+    var navLinks = Array.prototype.slice.call(document.querySelectorAll(".nav-links a:not(.nav-cta)"));
+    var otherLinks = Array.prototype.slice.call(document.querySelectorAll("#mobile-menu a, .section-rail a"));
+    var activeLink = null;
+
+    function moveIndicator(link) {
+      if (!indicator) return;
+      if (!link || !link.offsetWidth) { indicator.classList.remove("is-on"); return; }
+      indicator.style.setProperty("--x", link.offsetLeft + "px");
+      indicator.style.setProperty("--w", String(link.offsetWidth / 100));
+      indicator.classList.add("is-on");
+    }
+    function setActive(id) {
+      if (revealPassed) revealPassed();
+      if (root.getAttribute("data-section") === id) return;
+      root.setAttribute("data-section", id);
+      var hash = "#" + id;
+      activeLink = null;
+      navLinks.forEach(function (a) {
+        var on = a.getAttribute("href") === hash;
+        a.classList.toggle("is-active", on);
+        if (on) { a.setAttribute("aria-current", "true"); activeLink = a; } else a.removeAttribute("aria-current");
+      });
+      otherLinks.forEach(function (a) {
+        var on = a.getAttribute("href") === hash;
+        a.classList.toggle("is-active", on);
+        if (on) a.setAttribute("aria-current", "true"); else a.removeAttribute("aria-current");
+      });
+      moveIndicator(activeLink);
+    }
+
+    // hover desliza o indicador até o link; ao sair, volta para a seção ativa
+    navLinks.forEach(function (a) {
+      a.addEventListener("mouseenter", function () { moveIndicator(a); });
+      a.addEventListener("focus", function () { moveIndicator(a); });
+    });
+    if (navList) navList.addEventListener("mouseleave", function () { moveIndicator(activeLink); });
+    window.addEventListener("resize", function () { moveIndicator(activeLink); });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { moveIndicator(activeLink); });
+
+    setActive("hero");
+    if (!("IntersectionObserver" in window)) return;
+    // a seção que cruza a linha central da viewport é a ativa
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        // no fim da página a linha central cai no footer: mantém "contato" ativo
+        if (en.isIntersecting) setActive(en.target.id === "footer" ? "contato" : en.target.id);
+      });
+    }, { rootMargin: "-50% 0px -50% 0px" });
+    ids.concat("footer").forEach(function (id) { var el = document.getElementById(id); if (el) io.observe(el); });
+  })();
+
+  /* ============ Tilt 3D + spotlight nos cards ============ */
   if (!isTouch && !prefersReduced) {
     document.querySelectorAll("[data-tilt]").forEach(function (card) {
       card.addEventListener("mousemove", function (e) {
         var r = card.getBoundingClientRect();
+        card.style.setProperty("--mx", (e.clientX - r.left) + "px");
+        card.style.setProperty("--my", (e.clientY - r.top) + "px");
         var rx = ((e.clientY - r.top) / r.height - 0.5) * -4;
         var ry = ((e.clientX - r.left) / r.width - 0.5) * 4;
         gsap.to(card, { rotateX: rx, rotateY: ry, duration: 0.45, ease: "power2.out", transformPerspective: 900 });
@@ -267,6 +350,24 @@
 
   if (!prefersReduced) {
     var getDist = function () { return Math.max(0, track.scrollWidth - innerWidth); };
+    // etapa "atual" = a última cujo centro o nó da linha já alcançou
+    var steps = Array.prototype.slice.call(track.querySelectorAll(".step"));
+    var stepCenters = [];
+    var currentStep = -1;
+    var measureSteps = function () {
+      var w = track.scrollWidth || 1;
+      stepCenters = steps.map(function (s) { return (s.offsetLeft + s.offsetWidth / 2) / w; });
+    };
+    var updateStep = function (p) {
+      if (!stepCenters.length) measureSteps();
+      var idx = 0;
+      stepCenters.forEach(function (c, i) { if (p >= c - 0.06) idx = i; });
+      if (idx === currentStep) return;
+      currentStep = idx;
+      steps.forEach(function (s, i) { s.classList.toggle("is-current", i === idx); });
+    };
+    ScrollTrigger.addEventListener("refresh", measureSteps);
+    updateStep(0);
     gsap.to(track, {
       x: function () { return -getDist(); },
       ease: "none",
@@ -280,6 +381,7 @@
         onUpdate: function (self) {
           fill.style.transform = "scaleX(" + self.progress + ")";
           node.style.left = (self.progress * 100) + "%";
+          updateStep(self.progress);
         }
       }
     });
@@ -375,14 +477,29 @@
     if (!root) return;
     var slides = root.querySelectorAll(".slide");
     var dots = root.querySelectorAll(".dot");
-    var idx = 0, timer = null;
+    var idx = 0, timer = null, SLIDE_MS = 5600;
+    root.style.setProperty("--slide-ms", SLIDE_MS + "ms");
     function goTo(i) {
       idx = (i + slides.length) % slides.length;
       slides.forEach(function (s, k) { s.classList.toggle("is-active", k === idx); });
-      dots.forEach(function (d, k) { d.classList.toggle("is-active", k === idx); });
+      dots.forEach(function (d, k) {
+        d.classList.toggle("is-active", k === idx);
+        if (k === idx) d.setAttribute("aria-current", "true"); else d.removeAttribute("aria-current");
+      });
     }
-    function play() { stop(); timer = setInterval(function () { goTo(idx + 1); }, 5600); }
-    function stop() { if (timer) clearInterval(timer); }
+    // reinicia a barra de progresso do dot ativo junto com o timer
+    function restartProgress() {
+      root.classList.remove("is-playing");
+      void root.offsetWidth;
+      root.classList.add("is-playing");
+    }
+    function play() {
+      stop();
+      root.classList.remove("is-paused");
+      restartProgress();
+      timer = setInterval(function () { goTo(idx + 1); restartProgress(); }, SLIDE_MS);
+    }
+    function stop() { if (timer) clearInterval(timer); timer = null; root.classList.add("is-paused"); }
     dots.forEach(function (d, k) { d.addEventListener("click", function () { goTo(k); play(); }); });
     root.addEventListener("mouseenter", stop);
     root.addEventListener("mouseleave", play);
