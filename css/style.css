@@ -533,14 +533,24 @@ section { position: relative; z-index: 5; padding: clamp(90px, 12vh, 150px) clam
 }
 .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
 .glass-form label { display: block; font-size: .84rem; letter-spacing: .08em; color: var(--muted); margin-bottom: 20px; }
-.glass-form input, .glass-form textarea {
+.glass-form label small { letter-spacing: 0; opacity: .7; }
+.glass-form input, .glass-form textarea, .glass-form select {
   width: 100%; margin-top: 8px; padding: 14px 16px; border-radius: 12px;
   background: rgba(10, 10, 18, .55); border: 1px solid rgba(183, 148, 246, .2);
   color: var(--text); font: inherit; font-size: .96rem; resize: vertical;
   transition: border-color .35s, box-shadow .35s;
 }
 .glass-form input::placeholder, .glass-form textarea::placeholder { color: rgba(160, 160, 176, .5); }
-.glass-form input:focus, .glass-form textarea:focus {
+.glass-form select {
+  appearance: none; cursor: pointer; padding-right: 42px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none' stroke='%23F2E27E' stroke-width='1.6' stroke-linecap='round'%3E%3Cpath d='M1 1.5l5 5 5-5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 16px center;
+}
+.glass-form select:invalid { color: rgba(160, 160, 176, .7); }
+.glass-form option { background: var(--surface); color: var(--text); }
+.glass-form [aria-invalid="true"] { border-color: #F28B82; }
+.hp-field { position: absolute !important; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.glass-form input:focus, .glass-form textarea:focus, .glass-form select:focus {
   outline: none; border-color: var(--gold-light);
   box-shadow: 0 0 0 3px rgba(242, 226, 126, .12), 0 0 24px rgba(124, 58, 237, .25);
 }
@@ -555,7 +565,44 @@ section { position: relative; z-index: 5; padding: clamp(90px, 12vh, 150px) clam
 }
 .btn-magnetic:hover { box-shadow: 0 14px 40px rgba(217, 194, 90, .32), 0 0 0 4px rgba(242, 226, 126, .12); }
 .btn-magnetic span { display: inline-flex; align-items: center; gap: 10px; will-change: transform; }
-.form-feedback { margin-top: 18px; font-size: .92rem; color: var(--gold-light); min-height: 1.4em; }
+.btn-magnetic[aria-busy="true"] { opacity: .75; cursor: progress; }
+.form-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 24px; }
+.form-wa {
+  color: var(--muted); font-size: .92rem; text-decoration: underline; text-decoration-color: rgba(160, 160, 176, .4);
+  text-underline-offset: 4px; transition: color .3s, text-decoration-color .3s;
+}
+.form-wa:hover { color: #4ADE80; text-decoration-color: currentcolor; }
+.form-legal { margin-top: 18px; font-size: .78rem; color: rgba(160, 160, 176, .75); }
+.form-feedback { margin-top: 10px; font-size: .92rem; color: var(--gold-light); min-height: 1.4em; }
+.form-feedback.is-error { color: #F28B82; }
+.form-feedback a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
+
+/* ============ WHATSAPP FLUTUANTE ============ */
+.wa-float {
+  position: fixed; right: clamp(16px, 2vw, 28px); bottom: clamp(16px, 2.4vw, 28px); z-index: 380;
+  display: inline-flex; align-items: center; gap: 10px; min-height: 56px; padding: 0 14px;
+  border-radius: 99px; color: #fff; background: #1FA855;
+  box-shadow: 0 10px 30px rgba(10, 60, 30, .45), inset 0 1px 0 rgba(255, 255, 255, .25);
+  opacity: 0; translate: 0 24px; pointer-events: none;
+  transition: opacity .5s var(--ease-out), translate .5s var(--ease-out), box-shadow .3s, background-color .3s;
+}
+.wa-float.is-visible { opacity: 1; translate: 0 0; pointer-events: auto; }
+.wa-float:hover { background: #179447; box-shadow: 0 14px 36px rgba(10, 60, 30, .55), 0 0 0 5px rgba(31, 168, 85, .18); }
+.wa-float:focus-visible { outline: 2px solid var(--gold-light); outline-offset: 3px; }
+.wa-float::before {
+  content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+  box-shadow: 0 0 0 0 rgba(31, 168, 85, .5); animation: wa-pulse 2.8s var(--ease-out) infinite;
+}
+.wa-float-label {
+  max-width: 0; overflow: hidden; white-space: nowrap; font-family: var(--font-display); font-weight: 600; font-size: .95rem;
+  transition: max-width .45s var(--ease-out), margin .45s var(--ease-out);
+}
+.wa-float:hover .wa-float-label, .wa-float:focus-visible .wa-float-label { max-width: 140px; margin-right: 6px; }
+
+@keyframes wa-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(31, 168, 85, .5); }
+  70%, 100% { box-shadow: 0 0 0 16px rgba(31, 168, 85, 0); }
+}
 
 /* ============ FOOTER ============ */
 #footer {
@@ -727,5 +774,6 @@ html[data-section]:not([data-section="hero"]) .section-rail { opacity: 1; pointe
   .shimmer { animation: none; }
   .amb { transition: none; }
   .section-rail a::before { transition: none; }
+  .wa-float::before { animation: none; }
   .scroll-indicator { display: none; }
 }
