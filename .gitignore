@@ -1,5 +1,6 @@
 # Configurações locais do Claude Code
-.claude/
+.claude/*
+!.claude/agents/
 
 # Dependências (se algum dia houver build)
 node_modules/

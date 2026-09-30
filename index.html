@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Aurius — Tecnologia que orbita o seu negócio</title>
-  <meta name="description" content="A Aurius cria universos digitais: sites imersivos, aplicativos, ERP sob medida, e-commerce e automação. Tecnologia que orbita o seu negócio.">
+  <meta name="description" content="Software house que desenvolve sites, aplicativos, ERP sob medida, e-commerce e automações com IA para empresas. Tecnologia que orbita o seu negócio.">
   <meta name="keywords" content="software house, criação de sites, aplicativos, ERP, e-commerce, automação, Aurius">
   <meta name="author" content="Aurius">
   <meta name="theme-color" content="#0A0A12">
@@ -36,28 +36,13 @@
 </head>
 <body>
 
-  <!-- ============ PRELOADER ============ -->
-  <div id="preloader" aria-hidden="true">
-    <canvas id="preloader-canvas"></canvas>
-    <div class="preloader-center">
-      <img src="assets/logo.webp" alt="" class="preloader-logo" width="418" height="620">
-      <div class="preloader-word">AURIUS</div>
-      <div class="preloader-track"><div class="preloader-bar"></div></div>
-      <div class="preloader-pct">0%</div>
-    </div>
-  </div>
-
   <!-- Barra de progresso do scroll -->
   <div id="scroll-progress" aria-hidden="true"></div>
-
-  <!-- Cursor customizado -->
-  <div id="cursor-dot" aria-hidden="true"></div>
-  <canvas id="cursor-canvas" aria-hidden="true"></canvas>
 
   <!-- Galáxia WebGL (fixa, controlada pelo scroll) -->
   <div id="galaxy-wrap" aria-hidden="true"><canvas id="galaxy-canvas"></canvas></div>
 
-  <!-- Campo de estrelas 2D para as seções após a transição -->
+  <!-- Campo de estrelas 2D para as seções após o hero -->
   <canvas id="starfield" aria-hidden="true"></canvas>
 
   <!-- ============ NAV ============ -->
@@ -71,16 +56,9 @@
       <a href="#processo">Processo</a>
       <a href="#portfolio">Portfólio</a>
       <a href="#depoimentos">Depoimentos</a>
-      <a href="#contato" class="nav-cta">Iniciar projeto</a>
+      <a href="#contato" class="nav-cta">Solicitar proposta</a>
     </nav>
     <div class="nav-actions">
-      <button type="button" id="audio-toggle" aria-label="Ativar som ambiente" title="Som ambiente">
-        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M11 5 6 9H2v6h4l5 4V5z"/>
-          <path class="wave w1" d="M15.5 8.5a5 5 0 0 1 0 7"/>
-          <path class="wave w2" d="M18.5 5.5a9.5 9.5 0 0 1 0 13"/>
-        </svg>
-      </button>
       <button type="button" id="menu-toggle" aria-label="Abrir menu" aria-expanded="false"><span></span><span></span><span></span></button>
     </div>
   </header>
@@ -89,7 +67,7 @@
     <a href="#processo">Processo</a>
     <a href="#portfolio">Portfólio</a>
     <a href="#depoimentos">Depoimentos</a>
-    <a href="#contato">Contato</a>
+    <a href="#contato" class="mobile-cta">Solicitar proposta</a>
   </div>
 
   <main>
@@ -98,116 +76,129 @@
     <section id="hero">
       <div class="hero-content">
         <img src="assets/logo.webp" alt="Logo Aurius — letra A dourada e violeta com esfera de IA" class="hero-logo" width="418" height="620" fetchpriority="high">
-        <h1 class="hero-title shimmer">AURIUS</h1>
-        <p class="hero-tagline" data-split>Tecnologia que orbita o seu negócio</p>
+        <p class="hero-kicker">Software house para empresas</p>
+        <h1 class="hero-title">Software sob medida que faz a sua empresa <em>crescer</em></h1>
+        <p class="hero-sub">Do diagnóstico ao suporte contínuo, um único time cuida de sites, aplicativos, ERP, e&#8209;commerce e automações com IA — com escopo, prazo e investimento definidos desde o início.</p>
+        <div class="hero-actions">
+          <a href="#contato" class="btn-primary">Solicitar proposta
+            <svg viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h12M11 5l5 5-5 5"/></svg>
+          </a>
+          <a href="#portfolio" class="btn-ghost">Ver projetos</a>
+        </div>
+        <ul class="hero-proof" aria-label="Aurius em números">
+          <li><strong>120+</strong> projetos entregues</li>
+          <li><strong>8 anos</strong> de mercado</li>
+          <li><strong>99%</strong> de satisfação</li>
+        </ul>
       </div>
-      <div class="scroll-indicator">
-        <div class="mouse"><div class="wheel"></div></div>
-        <span>Role para explorar o universo Aurius</span>
+      <div class="scroll-indicator" aria-hidden="true">
+        <span class="scroll-line"></span>
+        <span>Role para conhecer</span>
       </div>
     </section>
 
-    <!-- ============ TRANSIÇÃO GALÁXIA → NOTEBOOK ============ -->
-    <section id="transition">
-      <div class="transition-stage">
-        <img src="assets/laptop.webp" alt="Notebook sobre mesa de madeira escura com a galáxia Aurius na tela" id="laptop-img" draggable="false" width="500" height="333" loading="lazy">
-        <div class="stage-tint" aria-hidden="true"></div>
-        <div id="screen-glow" aria-hidden="true"></div>
-        <div class="stage-vignette" aria-hidden="true"></div>
-        <div class="stage-grain" aria-hidden="true"></div>
-        <div class="transition-text">
-          <h2 class="shimmer">Nós criamos universos digitais</h2>
-          <p>Sites, aplicativos, ERP, e-commerce e automação — a Aurius coloca o universo digital na sua tela.</p>
-          <a href="#servicos" class="btn-ghost">Explorar serviços</a>
-        </div>
-      </div>
-    </section>
 
     <!-- ============ SERVIÇOS ============ -->
     <section id="servicos">
-      <div class="orbit-backdrop" aria-hidden="true">
-        <div class="orbit-ring r1"><i class="planet p1"></i></div>
-        <div class="orbit-ring r2"><i class="planet p2"></i></div>
-        <div class="orbit-ring r3"><i class="planet p3"></i></div>
-        <div class="orbit-sun"><img src="assets/logo.webp" alt="" width="418" height="620" loading="lazy"></div>
-      </div>
       <div class="section-head">
         <span class="eyebrow" data-reveal>Serviços</span>
-        <h2 class="section-title" data-split>Um sistema completo <em>orbitando</em> o seu negócio</h2>
-        <p class="section-sub" data-reveal>Cinco frentes de tecnologia, um único centro de gravidade: os seus resultados.</p>
+        <h2 class="section-title" data-split>Tudo o que a sua operação digital precisa, em <em>um só parceiro</em></h2>
+        <p class="section-sub" data-reveal>Cinco frentes integradas e um único time responsável pelo resultado — sem repassar o seu projeto entre fornecedores.</p>
       </div>
       <div class="cards-grid">
-        <article class="card" data-tilt>
-          <div class="card-icon">
-            <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="3" y="5" width="26" height="19" rx="2.5"/>
-              <path d="M3 10.5h26"/><circle cx="6.5" cy="7.8" r=".9" fill="currentColor" stroke="none"/><circle cx="9.5" cy="7.8" r=".9" fill="currentColor" stroke="none"/>
-              <path class="draw" d="M8 16.5h9M8 19.5h13"/>
-            </svg>
+        <article class="card card-lg" data-tilt>
+          <div class="card-top">
+            <div class="card-icon">
+              <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="3" y="5" width="26" height="19" rx="2.5"/>
+                <path d="M3 10.5h26M12 28h8M16 24v4"/>
+                <path d="M8 15.5h9M8 19h13"/>
+              </svg>
+            </div>
+            <span class="card-n">01</span>
           </div>
           <h3>Sites</h3>
-          <p>Sites institucionais e landing pages imersivas, rápidas e feitas para converter visitantes em clientes.</p>
+          <p>Sites institucionais e landing pages rápidas, otimizadas para SEO e pensadas para transformar visitas em oportunidades de venda.</p>
+          <p class="card-result">Mais leads qualificados, menos atrito até o contato.</p>
           <span class="card-tag">Web · SEO · Performance</span>
         </article>
-        <article class="card" data-tilt>
-          <div class="card-icon">
-            <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="9" y="3" width="14" height="26" rx="3"/>
-              <path d="M14 5.5h4"/><circle cx="16" cy="25.5" r="1.1" fill="currentColor" stroke="none"/>
-              <path class="draw" d="M13 13l3 3-3 3M17.5 19h2.5"/>
-            </svg>
+        <article class="card card-lg" data-tilt>
+          <div class="card-top">
+            <div class="card-icon">
+              <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="9" y="3" width="14" height="26" rx="3"/>
+                <path d="M14 6h4M14.5 25.5h3"/>
+                <path d="M13 12l3 3-3 3M17.5 18h2.5"/>
+              </svg>
+            </div>
+            <span class="card-n">02</span>
           </div>
           <h3>Aplicativos</h3>
-          <p>Apps iOS e Android com experiência fluida, do protótipo à publicação nas lojas.</p>
+          <p>Apps iOS e Android com experiência fluida, do protótipo validado com usuários até a publicação e manutenção nas lojas.</p>
+          <p class="card-result">Seu serviço no bolso do cliente, com engajamento recorrente.</p>
           <span class="card-tag">iOS · Android · UX</span>
         </article>
         <article class="card" data-tilt>
-          <div class="card-icon">
-            <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="4" y="4" width="10" height="10" rx="2"/><rect x="18" y="4" width="10" height="10" rx="2"/>
-              <rect x="4" y="18" width="10" height="10" rx="2"/><rect x="18" y="18" width="10" height="10" rx="2"/>
-            </svg>
+          <div class="card-top">
+            <div class="card-icon">
+              <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="4" y="4" width="10" height="10" rx="2"/><rect x="18" y="4" width="10" height="10" rx="2"/>
+                <rect x="4" y="18" width="10" height="10" rx="2"/><path d="M18 28V22M23 28V18M28 28v-8"/>
+              </svg>
+            </div>
+            <span class="card-n">03</span>
           </div>
-          <h3>ERP</h3>
-          <p>Sistemas de gestão sob medida que unificam financeiro, estoque, vendas e operações em um só lugar.</p>
+          <h3>ERP sob medida</h3>
+          <p>Financeiro, estoque, vendas e operação integrados em um sistema desenhado para o seu processo.</p>
+          <p class="card-result">Dados confiáveis e fim do retrabalho entre planilhas.</p>
           <span class="card-tag">Gestão · Dados · BI</span>
         </article>
         <article class="card" data-tilt>
-          <div class="card-icon">
-            <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M5 7h3l3.5 14h13l3-10H10"/>
-              <circle cx="13.5" cy="25.5" r="1.8"/><circle cx="24" cy="25.5" r="1.8"/>
-            </svg>
+          <div class="card-top">
+            <div class="card-icon">
+              <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M5 7h3l3.5 14h13l3-10H10"/>
+                <circle cx="13.5" cy="25.5" r="1.8"/><circle cx="24" cy="25.5" r="1.8"/>
+              </svg>
+            </div>
+            <span class="card-n">04</span>
           </div>
           <h3>E-commerce</h3>
-          <p>Lojas virtuais completas, com checkout otimizado, integrações de pagamento e logística.</p>
+          <p>Lojas virtuais com checkout otimizado e integrações de pagamento, frete e ERP.</p>
+          <p class="card-result">Mais pedidos concluídos e operação sem gargalos.</p>
           <span class="card-tag">Vendas · Pagamentos</span>
         </article>
         <article class="card" data-tilt>
-          <div class="card-icon">
-            <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M17.5 3 7 18h7l-1.5 11L23 14h-7l1.5-11z"/>
-            </svg>
+          <div class="card-top">
+            <div class="card-icon">
+              <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="16" cy="16" r="4"/>
+                <path d="M16 4v4M16 24v4M4 16h4M24 16h4M7.5 7.5l2.8 2.8M21.7 21.7l2.8 2.8M7.5 24.5l2.8-2.8M21.7 10.3l2.8-2.8"/>
+              </svg>
+            </div>
+            <span class="card-n">05</span>
           </div>
-          <h3>Automação</h3>
-          <p>Integrações e robôs que eliminam tarefas repetitivas — inclusive com inteligência artificial.</p>
+          <h3>Automação &amp; IA</h3>
+          <p>Integrações e robôs que eliminam tarefas repetitivas — com inteligência artificial onde ela gera retorno.</p>
+          <p class="card-result">Horas da equipe liberadas para o que importa.</p>
           <span class="card-tag">IA · Integrações · Bots</span>
         </article>
       </div>
     </section>
 
-    <div class="stardust-divider" aria-hidden="true"></div>
+    <div class="section-divider" aria-hidden="true"></div>
 
     <!-- ============ PROCESSO ============ -->
     <section id="processo">
       <div class="processo-pin">
         <div class="section-head">
           <span class="eyebrow" data-reveal>Metodologia</span>
-          <h2 class="section-title" data-split>A rota até a sua órbita</h2>
+          <h2 class="section-title" data-split>Um processo claro, do diagnóstico ao suporte</h2>
+          <p class="section-sub" data-reveal>Etapas com entregas visíveis e aprovação sua em cada uma — você sabe exatamente o que está sendo feito e por quê.</p>
         </div>
         <div class="timeline-viewport">
           <div class="timeline-track">
-            <div class="timeline-line" aria-hidden="true"><div class="timeline-fill"></div><div class="comet"></div></div>
+            <div class="timeline-line" aria-hidden="true"><div class="timeline-fill"></div><div class="timeline-node"></div></div>
             <article class="step">
               <span class="step-n">01</span>
               <h3>Descoberta</h3>
@@ -226,51 +217,57 @@
             <article class="step">
               <span class="step-n">04</span>
               <h3>Lançamento</h3>
-              <p>Deploy monitorado, performance auditada e SEO configurado. Contagem regressiva e decolagem.</p>
+              <p>Go-live planejado e monitorado, com performance auditada e SEO configurado — sem interromper a sua operação.</p>
             </article>
             <article class="step">
               <span class="step-n">05</span>
-              <h3>Órbita</h3>
-              <p>Suporte contínuo, evolução e melhorias. Seu produto permanece em movimento — e nós, ao lado dele.</p>
+              <h3>Evolução</h3>
+              <p>Suporte contínuo com SLA, métricas e melhorias periódicas. O produto evolui junto com o seu negócio.</p>
             </article>
           </div>
         </div>
       </div>
     </section>
 
-    <div class="stardust-divider" aria-hidden="true"></div>
+    <div class="section-divider" aria-hidden="true"></div>
 
     <!-- ============ PORTFÓLIO ============ -->
     <section id="portfolio">
       <div class="section-head">
         <span class="eyebrow" data-reveal>Portfólio</span>
-        <h2 class="section-title" data-split>Universos que já criamos</h2>
-        <p class="section-sub" data-reveal>Alguns dos projetos que colocamos em órbita.</p>
+        <h2 class="section-title" data-split>Projetos que geram <em>resultado</em></h2>
+        <p class="section-sub" data-reveal>Alguns dos produtos que desenhamos, desenvolvemos e seguimos evoluindo com nossos clientes.</p>
       </div>
       <div class="portfolio-grid">
         <article class="p-card" data-speed="0.06">
-          <div class="p-media m1"><span class="p-glyph">◍</span></div>
+          <div class="p-media m1"><span class="p-icon"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9h3l3 13h13l3-9H11"/><circle cx="14" cy="26" r="1.6"/><circle cx="23" cy="26" r="1.6"/></svg></span></div>
           <div class="p-info"><h3>Orion Commerce</h3><span>E-commerce · Moda</span></div>
+          <p class="p-result">Checkout em uma etapa integrado ao estoque</p>
         </article>
         <article class="p-card" data-speed="-0.05">
-          <div class="p-media m2"><span class="p-glyph">◈</span></div>
+          <div class="p-media m2"><span class="p-icon"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="5" width="9" height="9" rx="1.5"/><rect x="18" y="5" width="9" height="9" rx="1.5"/><rect x="5" y="18" width="9" height="9" rx="1.5"/><path d="M18 27v-5M22.5 27v-8M27 27V17"/></svg></span></div>
           <div class="p-info"><h3>Nébula ERP</h3><span>Gestão industrial</span></div>
+          <p class="p-result">Produção, estoque e faturamento em um só painel</p>
         </article>
         <article class="p-card" data-speed="0.08">
-          <div class="p-media m3"><span class="p-glyph">✦</span></div>
+          <div class="p-media m3"><span class="p-icon"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="14" height="26" rx="3"/><path d="M13 19l3-3 2 2 3-4"/><path d="M14.5 25.5h3"/></svg></span></div>
           <div class="p-info"><h3>Vega Bank</h3><span>App financeiro</span></div>
+          <p class="p-result">Conta digital com onboarding 100% pelo app</p>
         </article>
         <article class="p-card" data-speed="-0.07">
-          <div class="p-media m4"><span class="p-glyph">❋</span></div>
+          <div class="p-media m4"><span class="p-icon"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 27s-10-6-10-13a5.5 5.5 0 0 1 10-3 5.5 5.5 0 0 1 10 3c0 7-10 13-10 13z"/><path d="M9 16h4l2-3 2 6 2-3h4"/></svg></span></div>
           <div class="p-info"><h3>Lyra Health</h3><span>Plataforma de clínicas</span></div>
+          <p class="p-result">Agenda, prontuário e confirmações automáticas</p>
         </article>
         <article class="p-card" data-speed="0.05">
-          <div class="p-media m5"><span class="p-glyph">◒</span></div>
+          <div class="p-media m5"><span class="p-icon"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 20V9h14v11M17 13h6l4 4v3h-24"/><circle cx="9" cy="22" r="2.2"/><circle cx="23" cy="22" r="2.2"/></svg></span></div>
           <div class="p-info"><h3>Atlas Log</h3><span>Automação logística</span></div>
+          <p class="p-result">Roteirização e rastreio automatizados</p>
         </article>
         <article class="p-card" data-speed="-0.06">
-          <div class="p-media m6"><span class="p-glyph">✧</span></div>
+          <div class="p-media m6"><span class="p-icon"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="4"/><path d="M4 26c0-4 3-7 7-7s7 3 7 7"/><path d="M20 8h8M20 13h8M22 18h6"/></svg></span></div>
           <div class="p-info"><h3>Pulsar CRM</h3><span>Vendas &amp; relacionamento</span></div>
+          <p class="p-result">Funil de vendas e follow-up com IA</p>
         </article>
       </div>
     </section>
@@ -280,23 +277,23 @@
       <canvas id="gold-particles" aria-hidden="true"></canvas>
       <div class="numeros-grid">
         <div class="num"><strong data-count="120" data-suffix="+">0</strong><span>Projetos entregues</span></div>
-        <div class="num"><strong data-count="80" data-suffix="+">0</strong><span>Clientes em órbita</span></div>
-        <div class="num"><strong data-count="8" data-suffix="">0</strong><span>Anos de missão</span></div>
-        <div class="num"><strong data-count="99" data-suffix="%">0</strong><span>Satisfação</span></div>
+        <div class="num"><strong data-count="80" data-suffix="+">0</strong><span>Clientes ativos</span></div>
+        <div class="num"><strong data-count="8" data-suffix="">0</strong><span>Anos de mercado</span></div>
+        <div class="num"><strong data-count="99" data-suffix="%">0</strong><span>De satisfação</span></div>
       </div>
     </section>
 
-    <div class="stardust-divider" aria-hidden="true"></div>
+    <div class="section-divider" aria-hidden="true"></div>
 
     <!-- ============ DEPOIMENTOS ============ -->
     <section id="depoimentos">
       <div class="section-head">
         <span class="eyebrow" data-reveal>Depoimentos</span>
-        <h2 class="section-title" data-split>Ecos do nosso universo</h2>
+        <h2 class="section-title" data-split>O que dizem nossos clientes</h2>
       </div>
       <div class="carousel" id="carousel">
         <figure class="slide is-active">
-          <blockquote>“A Aurius transformou nossa loja física em um e-commerce que hoje representa 60% do faturamento. O cuidado com cada detalhe é de outro planeta.”</blockquote>
+          <blockquote>“A Aurius transformou nossa loja física em um e-commerce que hoje representa 60% do faturamento. O cuidado com cada detalhe fez toda a diferença.”</blockquote>
           <figcaption><span class="avatar av1">MD</span><div><strong>Mariana Duarte</strong><span>CEO · Horizonte Modas</span></div></figcaption>
         </figure>
         <figure class="slide">
@@ -318,15 +315,20 @@
     <!-- ============ CTA / CONTATO ============ -->
     <section id="contato">
       <div class="cta-inner">
-        <h2 class="section-title" data-split>Pronto para lançar seu projeto em <em>órbita</em>?</h2>
-        <p class="section-sub" data-reveal>Conte sua ideia. Respondemos em até 24 horas com um plano de voo.</p>
+        <h2 class="section-title" data-split>Vamos tirar o seu projeto do <em>papel</em>?</h2>
+        <p class="section-sub" data-reveal>Conte o seu desafio. Em até 24 horas úteis você recebe um retorno com os próximos passos.</p>
+        <ul class="cta-points">
+          <li><svg viewBox="0 0 20 20" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg>Diagnóstico inicial sem custo</li>
+          <li><svg viewBox="0 0 20 20" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg>Proposta com escopo e prazo claros</li>
+          <li><svg viewBox="0 0 20 20" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg>Seus dados protegidos (LGPD)</li>
+        </ul>
         <form id="contact-form" class="glass-form" novalidate>
           <div class="form-row">
             <label>Nome<input type="text" name="nome" placeholder="Como podemos te chamar?" required></label>
             <label>E-mail<input type="email" name="email" placeholder="voce@empresa.com.br" required></label>
           </div>
-          <label>Projeto<textarea name="mensagem" rows="4" placeholder="Conte sobre o universo que você quer criar…" required></textarea></label>
-          <button type="submit" class="btn-magnetic" id="magnetic-btn"><span>Lançar projeto 🚀</span></button>
+          <label>Projeto<textarea name="mensagem" rows="4" placeholder="Descreva o desafio, o prazo desejado e o que já existe hoje…" required></textarea></label>
+          <button type="submit" class="btn-magnetic" id="magnetic-btn"><span>Solicitar proposta <svg viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h12M11 5l5 5-5 5"/></svg></span></button>
           <p class="form-feedback" role="status" aria-live="polite"></p>
         </form>
       </div>
@@ -340,7 +342,7 @@
       <div class="footer-brand">
         <img src="assets/logo.webp" alt="Logo Aurius" class="footer-logo" width="418" height="620" loading="lazy">
         <strong>AURIUS</strong>
-        <p>Universos digitais sob medida para o seu negócio.</p>
+        <p>Software sob medida para empresas que querem crescer com tecnologia.</p>
       </div>
       <nav class="footer-col" aria-label="Navegação do rodapé">
         <h4>Navegação</h4>

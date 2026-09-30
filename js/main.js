@@ -11,18 +11,34 @@
 
   gsap.registerPlugin(ScrollTrigger);
 
-  /* ============ Galáxia WebGL (three.js carrega async; entra quando pronto) ============ */
+  /* ============ Galáxia WebGL ============
+     three.js carrega async. A construção das partículas é um trabalho pesado
+     na thread principal (~200-300 ms), então só acontece depois do load e
+     num momento ocioso, para nunca competir com o primeiro paint do hero.
+     O canvas entra com fade (CSS .is-ready) em vez de "pipocar". */
   var galaxyWrap = document.getElementById("galaxy-wrap");
   var galaxyApi = null;
-  (function initGalaxyWhenReady() {
-    if (!window.THREE || !window.AuriusGalaxy) { requestAnimationFrame(initGalaxyWhenReady); return; }
+  function initGalaxy() {
+    if (!window.THREE || !window.AuriusGalaxy) { setTimeout(initGalaxy, 120); return; }
     galaxyApi = AuriusGalaxy.init({
       canvas: document.getElementById("galaxy-canvas"),
-      count: isMobile ? 12000 : 60000,
+      count: isMobile ? 9000 : 42000,
       reducedMotion: prefersReduced,
-      maxPixelRatio: isMobile ? 1 : 1.6
+      maxPixelRatio: isMobile ? 1 : 1.5
     });
-  })();
+    // se o usuário já passou do hero antes da galáxia existir, nasce pausada
+    if (galaxyHidden) galaxyApi.setActive(false);
+    requestAnimationFrame(function () { galaxyWrap.classList.add("is-ready"); });
+  }
+  function scheduleGalaxy() {
+    // espera a entrada do hero (~0,75 s) terminar antes do trabalho pesado
+    setTimeout(function () {
+      if ("requestIdleCallback" in window) requestIdleCallback(initGalaxy, { timeout: 800 });
+      else initGalaxy();
+    }, 450);
+  }
+  if (document.readyState === "complete") scheduleGalaxy();
+  else window.addEventListener("load", scheduleGalaxy);
 
   /* ============ Lenis smooth scroll ============ */
   var lenis = null;
@@ -70,83 +86,10 @@
     return chars;
   }
 
-  /* ============ Preloader ============ */
-  var preloader = document.getElementById("preloader");
-  var plBar = preloader.querySelector(".preloader-bar");
-  var plPct = preloader.querySelector(".preloader-pct");
-  var plCanvas = document.getElementById("preloader-canvas");
-  var plRunning = true;
-
-  (function preloaderParticles() {
-    var ctx = plCanvas.getContext("2d");
-    var parts = [];
-    plCanvas.width = innerWidth; plCanvas.height = innerHeight;
-    for (var i = 0; i < 90; i++) {
-      parts.push({
-        x: Math.random() * innerWidth, y: Math.random() * innerHeight,
-        gold: Math.random() < 0.5, sp: 0.008 + Math.random() * 0.02, r: 0.6 + Math.random() * 1.6
-      });
-    }
-    (function draw() {
-      if (!plRunning) return;
-      requestAnimationFrame(draw);
-      ctx.clearRect(0, 0, plCanvas.width, plCanvas.height);
-      var cx = innerWidth / 2, cy = innerHeight / 2;
-      ctx.globalCompositeOperation = "lighter";
-      parts.forEach(function (p) {
-        p.x += (cx - p.x) * p.sp;
-        p.y += (cy - p.y) * p.sp;
-        var d = Math.hypot(cx - p.x, cy - p.y);
-        if (d < 60) { p.x = Math.random() * innerWidth; p.y = Math.random() * innerHeight; }
-        var a = Math.min(0.8, d / 500);
-        ctx.fillStyle = p.gold ? "rgba(242,226,126," + a + ")" : "rgba(183,148,246," + a + ")";
-        ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, 7); ctx.fill();
-      });
-    })();
-  })();
-
-  // Pronto quando fontes + imagem do hero (o LCP) carregarem — não esperamos
-  // scripts decorativos de terceiros (three.js), que carregam à parte.
-  var heroLogoImg = document.querySelector(".hero-logo");
-
-  var plStart = performance.now(), plShown = 0;
-  (function plTick() {
-    var elapsed = (performance.now() - plStart) / 1000;
-    var loadDone = elapsed > 2.5 ||
-      ((!document.fonts || document.fonts.status === "loaded") && (!heroLogoImg || heroLogoImg.complete));
-    var target = loadDone ? 100 : Math.min(90, elapsed * 55);
-    plShown += (target - plShown) * 0.16;
-    if (plShown > 99.4) plShown = 100;
-    plBar.style.width = plShown + "%";
-    plPct.textContent = Math.round(plShown) + "%";
-    if (plShown >= 100) { exitPreloader(); return; }
-    requestAnimationFrame(plTick);
-  })();
-
-  function exitPreloader() {
-    var tl = gsap.timeline({
-      onComplete: function () { plRunning = false; preloader.style.display = "none"; }
-    });
-    tl.to(".preloader-center", { autoAlpha: 0, scale: 1.15, duration: 0.55, ease: "power2.in" })
-      .to(preloader, { autoAlpha: 0, duration: 0.7, ease: "power1.inOut" }, "-=0.15")
-      .add(introHero, "-=0.45");
-  }
-
-  /* ============ Intro do hero ============ */
-  var tagChars = null;
-  var heroTagline = document.querySelector(".hero-tagline");
-  if (heroTagline) { tagChars = splitChars(heroTagline); gsap.set(tagChars, { yPercent: 110 }); }
-  gsap.set(".hero-logo", { autoAlpha: 0, scale: 0.62, y: 26 });
-  gsap.set(".hero-title", { autoAlpha: 0, y: 34 });
-  gsap.set(".scroll-indicator", { autoAlpha: 0 });
-
-  function introHero() {
-    var tl = gsap.timeline();
-    tl.to(".hero-logo", { autoAlpha: 1, scale: 1, y: 0, duration: 1.3, ease: "power3.out" })
-      .to(".hero-title", { autoAlpha: 1, y: 0, duration: 0.9, ease: "power3.out" }, "-=0.7");
-    if (tagChars) tl.to(tagChars, { yPercent: 0, duration: 0.8, stagger: 0.018, ease: "power3.out" }, "-=0.5");
-    tl.to(".scroll-indicator", { autoAlpha: 1, duration: 0.8 }, "-=0.3");
-  }
+  /* ============ Intro do hero ============
+     A entrada do hero é feita em CSS (keyframes .hero-content > *), então o
+     conteúdo aparece e fica clicável já no primeiro paint, sem depender do
+     carregamento de GSAP/three.js pela CDN nem de um preloader. */
 
   /* ============ Barra de progresso + nav ============ */
   ScrollTrigger.create({
@@ -194,203 +137,46 @@
       autoAlpha: 0, y: -90, ease: "none",
       scrollTrigger: { trigger: "#hero", start: "top top", end: "bottom 40%", scrub: true }
     });
-    gsap.to(".scroll-indicator", {
-      autoAlpha: 0, ease: "none",
+    // fromTo: no momento da criação o indicador ainda está no fade-in do CSS (opacity 0)
+    gsap.fromTo(".scroll-indicator", { autoAlpha: 1 }, {
+      autoAlpha: 0, ease: "none", immediateRender: false,
       scrollTrigger: { trigger: "#hero", start: "top top", end: "18% top", scrub: true }
     });
   }
 
-  /* ============================================================
-     TRANSIÇÃO GALÁXIA → NOTEBOOK (homografia + pin scrub)
-     ============================================================ */
-  var laptopImg = document.getElementById("laptop-img");
-  var stageTint = document.querySelector(".stage-tint");
-  var screenGlow = document.getElementById("screen-glow");
-  var vignette = document.querySelector(".stage-vignette");
-  var grain = document.querySelector(".stage-grain");
-  var transText = document.querySelector(".transition-text");
-
-  // cantos da tela do notebook, em frações da imagem (TL, TR, BL, BR)
-  var SCREEN_QUAD = {
-    tl: [0.128, 0.300],
-    tr: [0.298, 0.086],
-    bl: [0.208, 0.620],
-    br: [0.436, 0.324]
-  };
-  var QUAD_INSET = 0.06;        // encolhe em direção ao centro (moldura/bezel)
-  var OBJ_POS = [0.30, 0.45];   // deve casar com object-position do CSS
-
-  /* --- homografia: 4 pontos -> matrix3d --- */
-  function adj3(m) {
-    return [
-      m[4] * m[8] - m[5] * m[7], m[2] * m[7] - m[1] * m[8], m[1] * m[5] - m[2] * m[4],
-      m[5] * m[6] - m[3] * m[8], m[0] * m[8] - m[2] * m[6], m[2] * m[3] - m[0] * m[5],
-      m[3] * m[7] - m[4] * m[6], m[1] * m[6] - m[0] * m[7], m[0] * m[4] - m[1] * m[3]
-    ];
-  }
-  function mulMM(a, b) {
-    var r = [];
-    for (var i = 0; i < 3; i++) for (var j = 0; j < 3; j++) {
-      r[3 * i + j] = a[3 * i] * b[j] + a[3 * i + 1] * b[3 + j] + a[3 * i + 2] * b[6 + j];
-    }
-    return r;
-  }
-  function mulMV(m, v) {
-    return [
-      m[0] * v[0] + m[1] * v[1] + m[2] * v[2],
-      m[3] * v[0] + m[4] * v[1] + m[5] * v[2],
-      m[6] * v[0] + m[7] * v[1] + m[8] * v[2]
-    ];
-  }
-  function basisToPoints(p1, p2, p3, p4) {
-    var m = [p1[0], p2[0], p3[0], p1[1], p2[1], p3[1], 1, 1, 1];
-    var v = mulMV(adj3(m), [p4[0], p4[1], 1]);
-    return mulMM(m, [v[0], 0, 0, 0, v[1], 0, 0, 0, v[2]]);
-  }
-  // pts na ordem TL, TR, BL, BR
-  function matrix3dFor(w, h, pts) {
-    var s = basisToPoints([0, 0], [w, 0], [0, h], [w, h]);
-    var d = basisToPoints(pts[0], pts[1], pts[2], pts[3]);
-    var t = mulMM(d, adj3(s));
-    for (var i = 0; i < 9; i++) t[i] /= t[8];
-    return "matrix3d(" + [
-      t[0], t[3], 0, t[6],
-      t[1], t[4], 0, t[7],
-      0, 0, 1, 0,
-      t[2], t[5], 0, t[8]
-    ].join(",") + ")";
-  }
-
-  function fitRect() {
-    var nw = laptopImg.naturalWidth || 500, nh = laptopImg.naturalHeight || 333;
-    var s = Math.max(innerWidth / nw, innerHeight / nh);
-    s = Math.min(s, 1.18 * innerHeight / nh); // não corta o notebook em telas muito largas
-    var w = nw * s, h = nh * s;
-    return { x: (innerWidth - w) * OBJ_POS[0], y: (innerHeight - h) * OBJ_POS[1], w: w, h: h };
-  }
-
-  function layoutLaptop() {
-    var r = fitRect();
-    laptopImg.style.left = r.x + "px";
-    laptopImg.style.top = r.y + "px";
-    laptopImg.style.width = r.w + "px";
-    laptopImg.style.height = r.h + "px";
-    // o scale() do zoom precisa acontecer em torno do centro do viewport
-    laptopImg.style.transformOrigin = (innerWidth / 2 - r.x) + "px " + (innerHeight / 2 - r.y) + "px";
-  }
-  layoutLaptop();
-  window.addEventListener("resize", layoutLaptop);
-
-  // quad da tela em px do viewport, considerando o scale atual do notebook
-  function screenQuadPx(laptopScale) {
-    var r = fitRect();
-    var raw = [SCREEN_QUAD.tl, SCREEN_QUAD.tr, SCREEN_QUAD.bl, SCREEN_QUAD.br].map(function (p) {
-      return [r.x + p[0] * r.w, r.y + p[1] * r.h];
-    });
-    var cx = 0, cy = 0;
-    raw.forEach(function (p) { cx += p[0] / 4; cy += p[1] / 4; });
-    return raw.map(function (p) {
-      var x = p[0] + (cx - p[0]) * QUAD_INSET;
-      var y = p[1] + (cy - p[1]) * QUAD_INSET;
-      // scale do notebook em torno do centro do viewport
-      x = innerWidth / 2 + (x - innerWidth / 2) * laptopScale;
-      y = innerHeight / 2 + (y - innerHeight / 2) * laptopScale;
-      return [x, y];
-    });
-  }
-
-  function clamp01(v) { return v < 0 ? 0 : v > 1 ? 1 : v; }
-  function easeInOut(t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
-
+  /* ============ Galáxia → campo de estrelas ao sair do hero ============ */
   var galaxyHidden = false;
   var starfieldVisible = false;
-
-  function applyTransition(p) {
-    var e = easeInOut(p);
-
-    // notebook: entra com zoom-out (1.34 -> 1) e fade
-    var ls = 1.34 - 0.34 * clamp01(e * 1.18);
-    laptopImg.style.transform = "scale(" + ls + ")";
-    laptopImg.style.opacity = clamp01((p - 0.04) / 0.3);
-    stageTint.style.opacity = clamp01((p - 0.1) / 0.5) * 0.9;
-    vignette.style.opacity = clamp01((p - 0.15) / 0.5);
-    grain.style.opacity = clamp01((p - 0.2) / 0.5) * 0.07;
-
-    // galáxia: viewport inteiro -> tela do notebook
-    var quad = screenQuadPx(ls);
-    var corners = [[0, 0], [innerWidth, 0], [0, innerHeight], [innerWidth, innerHeight]];
-    var dest = corners.map(function (c, i) {
-      return [
-        c[0] + (quad[i][0] - c[0]) * e,
-        c[1] + (quad[i][1] - c[1]) * e
-      ];
-    });
-    galaxyWrap.style.transform = matrix3dFor(innerWidth, innerHeight, dest);
-
-    // brilho do núcleo refletindo no teclado/mesa
-    var gcx = (quad[0][0] + quad[1][0] + quad[2][0] + quad[3][0]) / 4;
-    var gcy = (quad[0][1] + quad[1][1] + quad[2][1] + quad[3][1]) / 4;
-    screenGlow.style.background =
-      "radial-gradient(ellipse " + (26 - 8 * e) + "% " + (30 - 10 * e) + "% at " +
-      (gcx / innerWidth * 100).toFixed(2) + "% " + (gcy / innerHeight * 100 + 6).toFixed(2) + "%, " +
-      "rgba(242,226,126,.55) 0%, rgba(183,148,246,.32) 40%, transparent 72%)";
-    screenGlow.style.opacity = clamp01((p - 0.45) / 0.35) * 0.85;
-
-    // texto final
-    var tp = clamp01((p - 0.76) / 0.2);
-    transText.style.opacity = tp;
-    transText.style.visibility = tp > 0.01 ? "visible" : "hidden";
-    transText.style.setProperty("--ty", ((1 - tp) * 44) + "px");
-  }
-
   var starfield = document.getElementById("starfield");
 
   if (!prefersReduced) {
-    var targetP = 0, dispP = 0;
-    gsap.ticker.add(function () {
-      if (Math.abs(targetP - dispP) < 0.0004) return;
-      dispP += (targetP - dispP) * 0.14;
-      applyTransition(dispP);
+    gsap.to(galaxyWrap, {
+      opacity: 0, ease: "none",
+      scrollTrigger: { trigger: "#hero", start: "40% top", end: "bottom top", scrub: true }
     });
-
     ScrollTrigger.create({
-      trigger: "#transition",
-      start: "top top",
-      end: isMobile ? "+=170%" : "+=280%",
-      pin: true,
-      anticipatePin: 1,
-      onUpdate: function (self) { targetP = self.progress; },
-      onLeave: function () {
+      trigger: "#hero", start: "bottom top",
+      onEnter: function () {
         galaxyHidden = true;
         starfieldVisible = true;
-        gsap.to(galaxyWrap, {
-          autoAlpha: 0, duration: 0.5,
-          onComplete: function () { if (galaxyHidden && galaxyApi) galaxyApi.setActive(false); }
-        });
-        gsap.to(starfield, { autoAlpha: 0.9, duration: 1 });
+        if (galaxyApi) galaxyApi.setActive(false);
+        gsap.to(starfield, { autoAlpha: 0.9, duration: 0.8 });
       },
-      onEnterBack: function () {
+      onLeaveBack: function () {
         galaxyHidden = false;
         starfieldVisible = false;
         if (galaxyApi) galaxyApi.setActive(true);
-        gsap.to(galaxyWrap, { autoAlpha: 1, duration: 0.4 });
-        gsap.to(starfield, { autoAlpha: 0, duration: 0.6 });
-      },
-      onRefresh: function (self) { targetP = self.progress; dispP = targetP; applyTransition(dispP); }
+        gsap.to(starfield, { autoAlpha: 0, duration: 0.5 });
+      }
     });
-
-    if (!laptopImg.complete) {
-      laptopImg.addEventListener("load", function () { layoutLaptop(); applyTransition(dispP); });
-    }
   } else {
-    // fallback estático: notebook composto + texto visível
+    // sem animação: a galáxia rola junto com o hero e o campo de estrelas fica estático
     galaxyWrap.style.position = "absolute";
-    applyTransition(1);
     starfield.style.opacity = 0.9;
     starfieldVisible = true;
   }
 
-  /* ============ Campo de estrelas 2D (pós-transição) ============ */
+  /* ============ Campo de estrelas 2D (pós-hero) ============ */
   (function starfield2D() {
     var ctx = starfield.getContext("2d");
     var stars = [];
@@ -448,13 +234,13 @@
       });
     });
 
-    // cards de serviços: entram "vindos da órbita"
+    // cards de serviços: entrada escalonada discreta
     ScrollTrigger.create({
       trigger: ".cards-grid", start: "top 82%", once: true,
       onEnter: function () {
         gsap.fromTo(".cards-grid .card",
-          { autoAlpha: 0, y: 70, scale: 0.9 },
-          { autoAlpha: 1, y: 0, scale: 1, duration: 1, stagger: 0.12, ease: "power3.out" });
+          { autoAlpha: 0, y: 40 },
+          { autoAlpha: 1, y: 0, duration: 0.8, stagger: 0.08, ease: "power3.out" });
       }
     });
   }
@@ -464,8 +250,8 @@
     document.querySelectorAll("[data-tilt]").forEach(function (card) {
       card.addEventListener("mousemove", function (e) {
         var r = card.getBoundingClientRect();
-        var rx = ((e.clientY - r.top) / r.height - 0.5) * -9;
-        var ry = ((e.clientX - r.left) / r.width - 0.5) * 9;
+        var rx = ((e.clientY - r.top) / r.height - 0.5) * -4;
+        var ry = ((e.clientX - r.left) / r.width - 0.5) * 4;
         gsap.to(card, { rotateX: rx, rotateY: ry, duration: 0.45, ease: "power2.out", transformPerspective: 900 });
       });
       card.addEventListener("mouseleave", function () {
@@ -477,7 +263,7 @@
   /* ============ Processo: linha do tempo horizontal ============ */
   var track = document.querySelector(".timeline-track");
   var fill = document.querySelector(".timeline-fill");
-  var comet = document.querySelector(".comet");
+  var node = document.querySelector(".timeline-node");
 
   if (!prefersReduced) {
     var getDist = function () { return Math.max(0, track.scrollWidth - innerWidth); };
@@ -493,14 +279,14 @@
         invalidateOnRefresh: true,
         onUpdate: function (self) {
           fill.style.transform = "scaleX(" + self.progress + ")";
-          comet.style.left = (self.progress * 100) + "%";
+          node.style.left = (self.progress * 100) + "%";
         }
       }
     });
   } else {
     document.querySelector(".timeline-viewport").style.overflowX = "auto";
     fill.style.transform = "scaleX(1)";
-    comet.style.left = "100%";
+    node.style.left = "100%";
   }
 
   /* ============ Portfólio: reveal + parallax ============ */
@@ -611,11 +397,11 @@
       var r = magBtn.getBoundingClientRect();
       var dx = e.clientX - (r.left + r.width / 2);
       var dy = e.clientY - (r.top + r.height / 2);
-      gsap.to(magBtn, { x: dx * 0.32, y: dy * 0.32, duration: 0.4, ease: "power2.out" });
-      gsap.to(magSpan, { x: dx * 0.14, y: dy * 0.14, duration: 0.4, ease: "power2.out" });
+      gsap.to(magBtn, { x: dx * 0.16, y: dy * 0.16, duration: 0.4, ease: "power2.out" });
+      gsap.to(magSpan, { x: dx * 0.06, y: dy * 0.06, duration: 0.4, ease: "power2.out" });
     });
     magBtn.addEventListener("mouseleave", function () {
-      gsap.to([magBtn, magSpan], { x: 0, y: 0, duration: 0.9, ease: "elastic.out(1, 0.4)" });
+      gsap.to([magBtn, magSpan], { x: 0, y: 0, duration: 0.9, ease: "power3.out" });
     });
   }
 
@@ -626,13 +412,13 @@
       var fb = form.querySelector(".form-feedback");
       var nome = form.nome.value.trim(), email = form.email.value.trim(), msg = form.mensagem.value.trim();
       if (!nome || !email || !msg || email.indexOf("@") < 1) {
-        fb.textContent = "Preencha todos os campos para iniciarmos a contagem regressiva. 🛰️";
+        fb.textContent = "Preencha nome, e-mail válido e uma breve descrição do projeto.";
         return;
       }
-      fb.textContent = "🚀 Mensagem lançada, " + nome.split(" ")[0] + "! Retornaremos em até 24h no seu e-mail.";
+      fb.textContent = "Obrigado, " + nome.split(" ")[0] + "! Recebemos sua mensagem e retornaremos em até 24 horas úteis.";
       form.reset();
       if (!prefersReduced && magBtn) {
-        gsap.fromTo(magBtn, { scale: 1 }, { scale: 1.08, duration: 0.18, yoyo: true, repeat: 1, ease: "power2.inOut" });
+        gsap.fromTo(magBtn, { scale: 1 }, { scale: 1.04, duration: 0.18, yoyo: true, repeat: 1, ease: "power2.inOut" });
       }
     });
   }
@@ -687,106 +473,6 @@
     });
     io.observe(footer);
     window.addEventListener("resize", function () { if (running) size(); });
-  })();
-
-  /* ============ Cursor customizado + trilha estelar ============ */
-  (function cursor() {
-    if (isTouch || prefersReduced) return;
-    var dot = document.getElementById("cursor-dot");
-    var canvas = document.getElementById("cursor-canvas");
-    var ctx = canvas.getContext("2d");
-    var parts = [];
-    function size() { canvas.width = innerWidth; canvas.height = innerHeight; }
-    size();
-    window.addEventListener("resize", size);
-
-    var xTo = gsap.quickTo(dot, "x", { duration: 0.16, ease: "power2.out" });
-    var yTo = gsap.quickTo(dot, "y", { duration: 0.16, ease: "power2.out" });
-
-    window.addEventListener("mousemove", function (e) {
-      xTo(e.clientX); yTo(e.clientY);
-      if (parts.length < 90) {
-        parts.push({
-          x: e.clientX + (Math.random() - 0.5) * 6,
-          y: e.clientY + (Math.random() - 0.5) * 6,
-          vx: (Math.random() - 0.5) * 0.7, vy: (Math.random() - 0.5) * 0.7 + 0.3,
-          life: 1, gold: Math.random() < 0.5, r: 0.8 + Math.random() * 1.4
-        });
-      }
-    }, { passive: true });
-
-    document.addEventListener("mouseover", function (e) {
-      var hit = e.target.closest && e.target.closest("a, button, input, textarea, .card, .p-card, .dot");
-      dot.classList.toggle("grow", !!hit);
-    });
-
-    (function loop() {
-      requestAnimationFrame(loop);
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.globalCompositeOperation = "lighter";
-      for (var i = parts.length - 1; i >= 0; i--) {
-        var p = parts[i];
-        p.life -= 0.03; p.x += p.vx; p.y += p.vy;
-        if (p.life <= 0) { parts.splice(i, 1); continue; }
-        ctx.fillStyle = p.gold
-          ? "rgba(242,226,126," + (p.life * 0.75) + ")"
-          : "rgba(183,148,246," + (p.life * 0.75) + ")";
-        ctx.beginPath(); ctx.arc(p.x, p.y, p.r * p.life, 0, 7); ctx.fill();
-      }
-    })();
-  })();
-
-  /* ============ Som ambiente (WebAudio, opcional) ============ */
-  (function ambientAudio() {
-    var btn = document.getElementById("audio-toggle");
-    var ctx = null, master = null, on = false;
-    function build() {
-      ctx = new (window.AudioContext || window.webkitAudioContext)();
-      master = ctx.createGain();
-      master.gain.value = 0;
-      master.connect(ctx.destination);
-
-      // ruído "espacial" filtrado
-      var len = ctx.sampleRate * 4;
-      var buf = ctx.createBuffer(1, len, ctx.sampleRate);
-      var data = buf.getChannelData(0);
-      var last = 0;
-      for (var i = 0; i < len; i++) {
-        var white = Math.random() * 2 - 1;
-        last = (last + 0.02 * white) / 1.02;
-        data[i] = last * 3.2;
-      }
-      var noise = ctx.createBufferSource();
-      noise.buffer = buf; noise.loop = true;
-      var lp = ctx.createBiquadFilter();
-      lp.type = "lowpass"; lp.frequency.value = 190; lp.Q.value = 0.6;
-      var ng = ctx.createGain(); ng.gain.value = 0.5;
-      noise.connect(lp); lp.connect(ng); ng.connect(master);
-      noise.start();
-
-      // drone grave
-      var osc = ctx.createOscillator();
-      osc.type = "sine"; osc.frequency.value = 55;
-      var og = ctx.createGain(); og.gain.value = 0.10;
-      osc.connect(og); og.connect(master);
-      osc.start();
-
-      // respiração lenta do filtro
-      var lfo = ctx.createOscillator();
-      lfo.type = "sine"; lfo.frequency.value = 0.06;
-      var lg = ctx.createGain(); lg.gain.value = 70;
-      lfo.connect(lg); lg.connect(lp.frequency);
-      lfo.start();
-    }
-    btn.addEventListener("click", function () {
-      if (!ctx) build();
-      if (ctx.state === "suspended") ctx.resume();
-      on = !on;
-      btn.classList.toggle("on", on);
-      btn.setAttribute("aria-label", on ? "Desativar som ambiente" : "Ativar som ambiente");
-      master.gain.cancelScheduledValues(ctx.currentTime);
-      master.gain.linearRampToValueAtTime(on ? 0.055 : 0, ctx.currentTime + 1.2);
-    });
   })();
 
   /* ============ Ajustes finais ============ */
