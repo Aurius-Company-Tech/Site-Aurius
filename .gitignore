@@ -8,3 +8,6 @@ node_modules/
 # Sistema
 Thumbs.db
 .DS_Store
+
+# Prints originais do portfólio (o site usa só os WebP gerados)
+assets/portifolio/**/*.png
