@@ -39,8 +39,8 @@ Use o Chrome DevTools MCP (`mcp__plugin_ecc_chrome-devtools__*`). Se estiver def
    - em `response.data` (o que o Web3Forms vai colocar no e-mail): **cada campo do inventário** presente, com o valor **exatamente** igual ao digitado/selecionado (incluindo acentos e o ID); nenhum campo vazio inesperado e nenhum campo extra estranho;
    - o feedback mostra a mensagem de sucesso com o primeiro nome e o formulário foi limpo.
    Monte uma tabela campo → valor enviado → valor recebido → OK/ERRO.
-8. **Canais de contato.** Todos os links `wa.me` da página apontam para `5596981163599`; o botão `.wa-float` fica oculto no topo e aparece (`is-visible`) depois de rolar além do hero; o e-mail do rodapé é `mailto:auriusmedical@gmail.com`.
-9. **Mobile.** Emule `390x844x3,mobile,touch`, recarregue, role até o formulário: `scrollWidth - clientWidth` deve ser 0 e o `.wa-float` não pode cobrir o botão "Solicitar proposta". Tire um screenshot do formulário. Ao final, limpe a emulação (`viewport: ""`).
+8. **Canais de contato.** Todos os links `wa.me` da página apontam para `5596981163599`; o botão `.wa-float` fica oculto no topo (hero), aparece (`is-visible`) nas seções do meio (ex.: `#servicos`), em telas **até 768px** fica **oculto de novo** (sem `is-visible`, `visibility: hidden`) enquanto o `#contact-form` está na tela e volta a aparecer no rodapé; no **desktop** continua visível no formulário e no rodapé (o form é centralizado, sem sobreposição); o e-mail do rodapé é `mailto:auriusmedical@gmail.com`.
+9. **Mobile.** Emule `390x844x3,mobile,touch`, recarregue, role até o formulário: `scrollWidth - clientWidth` deve ser 0 e, com o formulário na tela, o `.wa-float` não pode cobrir o botão "Solicitar proposta" nem o texto `.form-legal` (LGPD). Tire um screenshot do formulário. Ao final, limpe a emulação (`viewport: ""`).
 10. **Console.** Nenhum `error` no console durante os testes (avisos de terceiros podem ser listados à parte).
 
 ## Regras

@@ -603,15 +603,29 @@
     });
   }
 
-  /* ============ WhatsApp flutuante: aparece depois do hero ============ */
+  /* ============ WhatsApp flutuante ============
+     Aparece depois do hero. Em telas até 768px some enquanto o formulário está na tela:
+     ali ele cobriria o texto (e o form já tem o link "ou fale pelo WhatsApp").
+     No desktop o form é centralizado e não há sobreposição; além disso o rodapé é curto
+     demais para o form sair da tela, então lá a regra do form não se aplica. */
   (function waFloat() {
     var btn = document.querySelector(".wa-float");
     var hero = document.getElementById("hero");
+    var formEl = document.getElementById("contact-form");
     if (!btn) return;
     if (!hero || !("IntersectionObserver" in window)) { btn.classList.add("is-visible"); return; }
+    var narrow = window.matchMedia("(max-width: 768px)");
+    var heroIn = true, formIn = false;
+    function update() { btn.classList.toggle("is-visible", !heroIn && !(formIn && narrow.matches)); }
+    if (narrow.addEventListener) narrow.addEventListener("change", update);
     new IntersectionObserver(function (entries) {
-      btn.classList.toggle("is-visible", !entries[0].isIntersecting);
+      heroIn = entries[0].isIntersecting; update();
     }, { threshold: 0.35 }).observe(hero);
+    if (formEl) {
+      new IntersectionObserver(function (entries) {
+        formIn = entries[0].isIntersecting; update();
+      }, { rootMargin: "0px 0px -80px 0px" }).observe(formEl);
+    }
   })();
 
   /* ============ Footer: constelação ============ */

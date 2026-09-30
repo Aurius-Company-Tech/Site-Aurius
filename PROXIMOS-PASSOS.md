@@ -70,7 +70,7 @@ Já concluído nesta rodada:
 - [ ] **Hero** com mockup ou vídeo curto de um produto real.
 - [ ] **Lighthouse mobile em produção.** Localmente fica em cerca de 60 por causa da máquina; o CI mede em outro ambiente.
 - [ ] **Links das redes sociais no rodapé:** ainda estão com `href="#"` (Instagram, LinkedIn, GitHub).
-- [ ] **Mobile (390px):** o botão flutuante do WhatsApp cobre o fim da linha "Usamos seus dados… (LGPD)" do formulário. Não cobre o botão de envio. Opções: esconder o `.wa-float` quando o `#contato` estiver visível, ou dar `padding-right` ao `.form-legal` no mobile.
+- [x] **Mobile (390px):** o botão flutuante do WhatsApp cobria o texto de LGPD do formulário. Corrigido: o `.wa-float` agora some enquanto o `#contact-form` está na tela.
 
 ### Pendências externas
 - [ ] **Refero MCP:** a assinatura está inativa (`NO_SUBSCRIPTION`). Para usar as referências de design pelo MCP, reative em https://refero.design/mcp/upgrade.

@@ -604,10 +604,10 @@ section { position: relative; z-index: 5; padding: clamp(90px, 12vh, 150px) clam
   display: inline-flex; align-items: center; gap: 10px; min-height: 56px; padding: 0 14px;
   border-radius: 99px; color: #fff; background: #1FA855;
   box-shadow: 0 10px 30px rgba(10, 60, 30, .45), inset 0 1px 0 rgba(255, 255, 255, .25);
-  opacity: 0; translate: 0 24px; pointer-events: none;
-  transition: opacity .5s var(--ease-out), translate .5s var(--ease-out), box-shadow .3s, background-color .3s;
+  opacity: 0; translate: 0 24px; pointer-events: none; visibility: hidden;
+  transition: opacity .5s var(--ease-out), translate .5s var(--ease-out), box-shadow .3s, background-color .3s, visibility 0s linear .5s;
 }
-.wa-float.is-visible { opacity: 1; translate: 0 0; pointer-events: auto; }
+.wa-float.is-visible { opacity: 1; translate: 0 0; pointer-events: auto; visibility: visible; transition-delay: 0s; }
 .wa-float:hover { background: #179447; box-shadow: 0 14px 36px rgba(10, 60, 30, .55), 0 0 0 5px rgba(31, 168, 85, .18); }
 .wa-float:focus-visible { outline: 2px solid var(--gold-light); outline-offset: 3px; }
 .wa-float::before {
