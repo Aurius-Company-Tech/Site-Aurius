@@ -71,10 +71,9 @@ npx http-server -p 4174 -c-1
 2. **Serviços** — Sites · Aplicativos · ERP · E-commerce · Automação
 3. **Processo** — timeline horizontal em 5 etapas
 4. **Portfólio** — projetos em grid com parallax
-5. **Números** — prova social com contadores animados
-6. **Depoimentos** — carrossel com fade estelar
-7. **Contato** — formulário glassmorphism com botão magnético
-8. **Footer** — constelação animada
+5. **Depoimentos** — carrossel com fade estelar
+6. **Contato** — formulário glassmorphism com botão magnético
+7. **Footer** — constelação animada
 
 ## ✅ CI — verificação automática de erros
 

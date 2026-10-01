@@ -272,7 +272,7 @@
   /* ============ Seção ativa: luz ambiente, nav, trilho ============ */
   (function activeSection() {
     var root = document.documentElement;
-    var ids = ["hero", "servicos", "processo", "portfolio", "numeros", "depoimentos", "faq", "contato"];
+    var ids = ["hero", "servicos", "processo", "portfolio", "depoimentos", "faq", "contato"];
     var navList = document.querySelector(".nav-links");
     var indicator = document.querySelector(".nav-indicator");
     var navLinks = Array.prototype.slice.call(document.querySelectorAll(".nav-links a:not(.nav-cta)"));
@@ -407,69 +407,6 @@
       });
     });
   }
-
-  /* ============ Números: contadores + partículas douradas ============ */
-  document.querySelectorAll("[data-count]").forEach(function (el) {
-    var end = parseInt(el.getAttribute("data-count"), 10);
-    var suf = el.getAttribute("data-suffix") || "";
-    if (prefersReduced) { el.textContent = end + suf; return; }
-    ScrollTrigger.create({
-      trigger: el, start: "top 86%", once: true,
-      onEnter: function () {
-        var obj = { v: 0 };
-        gsap.to(obj, {
-          v: end, duration: 2.2, ease: "power2.out",
-          onUpdate: function () { el.textContent = Math.round(obj.v) + suf; }
-        });
-      }
-    });
-  });
-
-  (function goldParticles() {
-    if (prefersReduced) return;
-    var canvas = document.getElementById("gold-particles");
-    var ctx = canvas.getContext("2d");
-    var running = false, parts = [];
-    function size() {
-      var sec = document.getElementById("numeros");
-      canvas.width = sec.offsetWidth; canvas.height = sec.offsetHeight;
-    }
-    function spawn() {
-      return {
-        x: Math.random() * canvas.width, y: canvas.height + 8,
-        vy: 18 + Math.random() * 42, drift: Math.random() * 6.28,
-        r: 0.7 + Math.random() * 1.8, a: 0.25 + Math.random() * 0.6
-      };
-    }
-    function loop() {
-      if (!running) return;
-      requestAnimationFrame(loop);
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.globalCompositeOperation = "lighter";
-      parts.forEach(function (p, i) {
-        p.y -= p.vy / 60;
-        p.x += Math.sin(p.y / 40 + p.drift) * 0.4;
-        var fade = Math.min(1, p.y / (canvas.height * 0.5));
-        ctx.fillStyle = "rgba(242,226,126," + (p.a * fade) + ")";
-        ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, 7); ctx.fill();
-        if (p.y < -10) parts[i] = spawn();
-      });
-    }
-    ScrollTrigger.create({
-      trigger: "#numeros", start: "top bottom", end: "bottom top",
-      onToggle: function (self) {
-        running = self.isActive;
-        if (running) {
-          size();
-          if (!parts.length) for (var i = 0; i < (isMobile ? 28 : 60); i++) {
-            var p = spawn(); p.y = Math.random() * canvas.height; parts.push(p);
-          }
-          loop();
-        }
-      }
-    });
-    window.addEventListener("resize", function () { if (running) size(); });
-  })();
 
   /* ============ Depoimentos: carrossel fade ============ */
   (function carousel() {

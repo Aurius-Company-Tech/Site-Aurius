@@ -9,7 +9,7 @@ O plano de melhorias do site tem 6 itens.
 | # | Item | Status |
 |---|---|---|
 | 1 | Formulário que envia de verdade + WhatsApp | ✅ Feito (PR #4, mergeado) |
-| 2 | Prova social (portfólio, resultados, depoimentos, logos, números) | 🟡 Em andamento: portfólio feito (PR #5) |
+| 2 | Prova social (portfólio, resultados, depoimentos, logos) | 🟡 Em andamento: portfólio feito (PR #5) |
 | 3 | Reduzir dúvidas do cliente (FAQ e garantias) | ✅ Feito (PR #8, mergeado) |
 | 4 | CTA de baixo compromisso ("Diagnóstico gratuito de 30 min" com agendamento) | ✅ Feito pelo WhatsApp (PR #9); agenda online fica para depois |
 | 5 | SEO e medição (página por serviço, Analytics com eventos, blog) | 🟡 SEO técnico + Umami em `feat/seo-analytics`; páginas por serviço a fazer |
@@ -49,7 +49,19 @@ Já concluído nesta rodada:
   - Triunfa: _(a definir)_ (tirar o selo "Em finalização" quando entregar)
 - [ ] **Depoimentos reais** (seção `#depoimentos`): nome, cargo, empresa, foto e, se possível, link do LinkedIn. Os 3 atuais são exemplos.
 - [ ] **Faixa de logos de clientes** logo abaixo do hero.
-- [ ] **Números da seção `#numeros`** (hoje "120+ projetos", "80+ clientes", "8 anos", "99% de satisfação"): confirmar valores reais ou remover.
+- [x] **Números inventados removidos** (01/10/2026): a faixa do hero e a seção `#numeros` ("120+ projetos", "80+ clientes", "8 anos", "99% de satisfação") eram texto de exemplo e não refletiam a empresa, que é nova. Só voltam com dados reais (ver ideias de substituição no PR).
+- [ ] **Depoimentos:** os 3 atuais também são de exemplo (nomes e resultados fictícios). Trocar por reais ou remover a seção `#depoimentos` até haver clientes dispostos a dar depoimento.
+
+#### Ideias para ocupar o lugar dos números (anotadas em 01/10/2026, a fazer depois)
+A empresa é nova, então só entra o que for verdadeiro hoje. Sugestão de ordem: 1, 2 e 4.
+1. [ ] **Faixa de fatos no hero:** "3 projetos no ar", "5 frentes de serviço", "Resposta em até 24h úteis" (todos já são fatos do site).
+2. [ ] **Seção "Quem somos":** história da Aurius, o que ela acredita e as pessoas por trás (foto, nome e LinkedIn dos sócios).
+3. [ ] **Mais detalhe em cada case do portfólio:** problema do cliente, o que foi construído e tecnologias usadas.
+4. [ ] **"Como trabalhamos":** contrato com escopo fechado, código no nome do cliente e entregas por etapa com aprovação do cliente.
+5. [ ] **Selo "Primeiros clientes":** condição especial para quem fechar nesta fase (depende de decisão comercial).
+6. [ ] **Faixa de tecnologias usadas** (React, Node, Python, API do WhatsApp...): confirmar quais são realmente usadas.
+7. [ ] **Transparência no portfólio:** manter o selo "Em finalização" no Triunfa e falar em "projetos recentes", não "projetos entregues".
+8. [ ] **Números reais, quando existirem:** projetos no ar, clientes atendidos e tempo médio de resposta (o Umami ajuda a medir). A seção de números volta só com dados verdadeiros.
 - [ ] (Opcional) **Galeria/lightbox** com os prints extras (`bonavides/image1` colagem, `bonavides/image4` FAQ).
 - [ ] (Opcional) **Página curta por case:** problema → solução → resultado.
 
