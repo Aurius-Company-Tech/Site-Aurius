@@ -7,7 +7,7 @@
     "lint:js": "eslint js",
     "lint:css": "stylelint \"css/**/*.css\"",
     "lint:html": "html-validate \"*.html\"",
-    "lint:links": "linkinator index.html --retry --skip \"wa\\.me|triunfa-web\\.onrender\\.com\"",
+    "lint:links": "linkinator index.html --retry --retry-errors --retry-errors-count 5 --skip \"wa\\.me\"",
     "test": "npm run lint:html && npm run lint:css && npm run lint:js && npm run lint:links"
   },
   "repository": {
