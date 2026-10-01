@@ -10,8 +10,8 @@ O plano de melhorias do site tem 6 itens.
 |---|---|---|
 | 1 | Formulário que envia de verdade + WhatsApp | ✅ Feito (PR #4, mergeado) |
 | 2 | Prova social (portfólio, resultados, depoimentos, logos, números) | 🟡 Em andamento: portfólio feito (PR #5) |
-| 3 | Reduzir dúvidas do cliente (FAQ e garantias) | 🟡 Pronto em `feat/faq-garantias` (PR a abrir) |
-| 4 | CTA de baixo compromisso ("Diagnóstico gratuito de 30 min" com agendamento) | ⬜ A fazer |
+| 3 | Reduzir dúvidas do cliente (FAQ e garantias) | ✅ Feito (PR #8, mergeado) |
+| 4 | CTA de baixo compromisso ("Diagnóstico gratuito de 30 min" com agendamento) | 🟡 Pelo WhatsApp em `feat/diagnostico-gratuito`; agenda online fica para depois |
 | 5 | SEO e medição (página por serviço, Analytics/Plausible com eventos, blog) | ⬜ A fazer |
 | 6 | Polimento (hero com mockup/vídeo, Lighthouse mobile em produção) | ⬜ A fazer |
 
@@ -62,7 +62,11 @@ Seção `#faq` (entre depoimentos e contato) pronta, com link "FAQ" no menu, no 
 - [ ] (Opcional) Adicionar JSON-LD `FAQPage` para SEO.
 
 ### 4. CTA de baixo compromisso
-- [ ] **"Diagnóstico gratuito de 30 min"** com agendamento (Cal.com ou Calendly).
+- [x] **"Diagnóstico gratuito de 30 min"** pelo WhatsApp (decisão de 01/10/2026: sem ferramenta de agenda por enquanto). A mensagem pronta é "quero agendar o diagnóstico gratuito de 30 min".
+  - Hero: o botão secundário "Ver projetos" virou "Diagnóstico gratuito de 30 min" (o portfólio continua no menu).
+  - Formulário: "ou fale pelo WhatsApp" virou "ou agende um diagnóstico gratuito de 30 min pelo WhatsApp".
+  - Contato: o item "Diagnóstico inicial sem custo" virou "Diagnóstico gratuito de 30 min".
+- [ ] (Depois) Trocar o link do WhatsApp por uma agenda online (Cal.com ou Calendly) quando a conta existir: basta substituir o `href` dos dois links com `diagn%C3%B3stico` no `index.html`.
 
 ### 5. SEO e medição
 - [ ] **Página por serviço:** ERP sob medida, e-commerce, apps, automação com IA.
