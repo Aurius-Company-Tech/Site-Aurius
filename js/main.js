@@ -535,9 +535,11 @@
       fb.textContent = text;
       fb.classList.toggle("is-error", !!isError);
     }
-    form.addEventListener("input", function (e) {
+    function clearInvalid(e) {
       if (e.target.getAttribute("aria-invalid")) e.target.removeAttribute("aria-invalid");
-    });
+    }
+    form.addEventListener("input", clearInvalid);
+    form.addEventListener("change", clearInvalid);
 
     form.addEventListener("submit", function (e) {
       e.preventDefault();
@@ -549,6 +551,7 @@
       [form.nome, form.email, form.tipo, form.mensagem].forEach(function (f) {
         var bad = !f.value.trim() || (f === form.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email));
         if (bad) { f.setAttribute("aria-invalid", "true"); invalid.push(f); }
+        else f.removeAttribute("aria-invalid");
       });
       if (invalid.length) {
         feedback("Preencha nome, e-mail válido, tipo de projeto e uma breve descrição.", true);

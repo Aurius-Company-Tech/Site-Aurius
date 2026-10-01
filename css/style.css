@@ -636,7 +636,7 @@ section { position: relative; z-index: 5; padding: clamp(90px, 12vh, 150px) clam
   position: relative; display: grid; grid-template-columns: 1.6fr 1fr 1fr 1.2fr; gap: 40px;
   max-width: 1240px; margin: 0 auto; padding: 74px clamp(20px, 6vw, 90px) 50px;
 }
-.footer-logo { height: 56px; width: auto; margin-bottom: 14px; filter: drop-shadow(0 0 12px rgba(183, 148, 246, .5)); }
+.footer-logo { height: 56px; width: auto; aspect-ratio: 418 / 620; margin-bottom: 14px; filter: drop-shadow(0 0 12px rgba(183, 148, 246, .5)); }
 .footer-brand strong { font-family: var(--font-display); letter-spacing: .3em; display: block; margin-bottom: 10px;
   background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
 .footer-brand p { color: var(--muted); font-size: .9rem; max-width: 260px; }
