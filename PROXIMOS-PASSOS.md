@@ -11,8 +11,8 @@ O plano de melhorias do site tem 6 itens.
 | 1 | Formulário que envia de verdade + WhatsApp | ✅ Feito (PR #4, mergeado) |
 | 2 | Prova social (portfólio, resultados, depoimentos, logos, números) | 🟡 Em andamento: portfólio feito (PR #5) |
 | 3 | Reduzir dúvidas do cliente (FAQ e garantias) | ✅ Feito (PR #8, mergeado) |
-| 4 | CTA de baixo compromisso ("Diagnóstico gratuito de 30 min" com agendamento) | 🟡 Pelo WhatsApp em `feat/diagnostico-gratuito`; agenda online fica para depois |
-| 5 | SEO e medição (página por serviço, Analytics/Plausible com eventos, blog) | ⬜ A fazer |
+| 4 | CTA de baixo compromisso ("Diagnóstico gratuito de 30 min" com agendamento) | ✅ Feito pelo WhatsApp (PR #9); agenda online fica para depois |
+| 5 | SEO e medição (página por serviço, Analytics com eventos, blog) | 🟡 SEO técnico + Umami em `feat/seo-analytics`; páginas por serviço a fazer |
 | 6 | Polimento (hero com mockup/vídeo, Lighthouse mobile em produção) | ⬜ A fazer |
 
 Já concluído nesta rodada:
@@ -69,8 +69,14 @@ Seção `#faq` (entre depoimentos e contato) pronta, com link "FAQ" no menu, no 
 - [ ] (Depois) Trocar o link do WhatsApp por uma agenda online (Cal.com ou Calendly) quando a conta existir: basta substituir o `href` dos dois links com `diagn%C3%B3stico` no `index.html`.
 
 ### 5. SEO e medição
-- [ ] **Página por serviço:** ERP sob medida, e-commerce, apps, automação com IA.
-- [ ] **Analytics** (GA4 ou Plausible) com eventos: clique nos CTAs, clique no WhatsApp, envio do formulário.
+Domínio oficial: **https://auriuscompany.com.br** (GitHub Pages, DNS na Hostinger, HTTPS obrigatório, domínio verificado na organização). O `CNAME` está na raiz do repo.
+- [x] **Imagem de compartilhamento** `assets/og-aurius.jpg` (1200x630, logo + slogan), com URL absoluta em `og:image`/`twitter:image`. Gerada com `sharp` fora do projeto.
+- [x] **Canonical + `og:url`**, **JSON-LD** (`ProfessionalService`, `WebSite`, `FAQPage` com as 7 perguntas do FAQ), `robots.txt` e `sitemap.xml`.
+  - Se mudar o texto do FAQ, atualize também o JSON-LD no `<head>`.
+- [x] **Umami Cloud** (sem cookies, sem banner LGPD), website ID `b2aa8368-c082-4117-b3c4-4171c8c0a95f`, `data-domains` restrito ao domínio (testes locais não contam).
+  - Eventos: `cta-proposta` (local: menu, menu-mobile, hero), `cta-diagnostico` (hero, formulario), `whatsapp` (flutuante, rodape, falha-formulario), `portfolio` (case), `formulario-enviado` (tipo, orcamento, prazo, sem dados pessoais), `formulario-falhou`.
+- [ ] Depois do merge: enviar o `sitemap.xml` no **Google Search Console** e validar a prévia no **Facebook Sharing Debugger** / **LinkedIn Post Inspector**.
+- [ ] **Página por serviço:** ERP sob medida, e-commerce, apps, automação com IA (PR separado).
 - [ ] (Opcional) Blog/conteúdo.
 
 ### 6. Polimento

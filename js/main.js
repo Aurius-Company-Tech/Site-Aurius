@@ -530,6 +530,10 @@
     var fb = form.querySelector(".form-feedback");
     var submitBtn = form.querySelector("button[type=submit]");
     var sending = false;
+    // Umami: evento personalizado, se o script de medição carregou (sem dados pessoais)
+    function track(name, info) {
+      if (window.umami && typeof window.umami.track === "function") window.umami.track(name, info);
+    }
 
     function feedback(text, isError) {
       fb.textContent = text;
@@ -579,6 +583,7 @@
           });
         })
         .then(function () {
+          track("formulario-enviado", { tipo: data.tipo, orcamento: data.orcamento, prazo: data.prazo });
           feedback("Obrigado, " + nome.split(" ")[0] + "! Recebemos sua mensagem e retornaremos em até 24 horas úteis.");
           form.reset();
           if (!prefersReduced && magBtn) {
@@ -586,6 +591,7 @@
           }
         })
         .catch(function () {
+          track("formulario-falhou", { tipo: data.tipo });
           var text = "Olá! Sou " + nome + " (" + email + "). Projeto: " + data.tipo + ". " + data.mensagem;
           fb.classList.add("is-error");
           fb.textContent = "Não conseguimos enviar agora. ";
@@ -593,6 +599,8 @@
           a.href = WA_URL + "?text=" + encodeURIComponent(text);
           a.target = "_blank";
           a.rel = "noopener";
+          a.setAttribute("data-umami-event", "whatsapp");
+          a.setAttribute("data-umami-event-local", "falha-formulario");
           a.textContent = "Envie pelo WhatsApp com um clique.";
           fb.appendChild(a);
         })
