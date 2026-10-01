@@ -261,7 +261,7 @@
     };
 
     // cabeçalhos de seção: parallax leve (fora da seção fixada do processo)
-    document.querySelectorAll("#servicos .section-head, #portfolio .section-head, #depoimentos .section-head, #faq .section-head").forEach(function (head) {
+    document.querySelectorAll("#servicos .section-head, #portfolio .section-head, #faq .section-head").forEach(function (head) {
       gsap.fromTo(head, { y: 50 }, {
         y: -40, ease: "none",
         scrollTrigger: { trigger: head.parentElement, start: "top bottom", end: "center top", scrub: true }
@@ -272,7 +272,7 @@
   /* ============ Seção ativa: luz ambiente, nav, trilho ============ */
   (function activeSection() {
     var root = document.documentElement;
-    var ids = ["hero", "servicos", "processo", "portfolio", "depoimentos", "faq", "contato"];
+    var ids = ["hero", "servicos", "processo", "portfolio", "faq", "contato"];
     var navList = document.querySelector(".nav-links");
     var indicator = document.querySelector(".nav-indicator");
     var navLinks = Array.prototype.slice.call(document.querySelectorAll(".nav-links a:not(.nav-cta)"));
@@ -407,41 +407,6 @@
       });
     });
   }
-
-  /* ============ Depoimentos: carrossel fade ============ */
-  (function carousel() {
-    var root = document.getElementById("carousel");
-    if (!root) return;
-    var slides = root.querySelectorAll(".slide");
-    var dots = root.querySelectorAll(".dot");
-    var idx = 0, timer = null, SLIDE_MS = 5600;
-    root.style.setProperty("--slide-ms", SLIDE_MS + "ms");
-    function goTo(i) {
-      idx = (i + slides.length) % slides.length;
-      slides.forEach(function (s, k) { s.classList.toggle("is-active", k === idx); });
-      dots.forEach(function (d, k) {
-        d.classList.toggle("is-active", k === idx);
-        if (k === idx) d.setAttribute("aria-current", "true"); else d.removeAttribute("aria-current");
-      });
-    }
-    // reinicia a barra de progresso do dot ativo junto com o timer
-    function restartProgress() {
-      root.classList.remove("is-playing");
-      void root.offsetWidth;
-      root.classList.add("is-playing");
-    }
-    function play() {
-      stop();
-      root.classList.remove("is-paused");
-      restartProgress();
-      timer = setInterval(function () { goTo(idx + 1); restartProgress(); }, SLIDE_MS);
-    }
-    function stop() { if (timer) clearInterval(timer); timer = null; root.classList.add("is-paused"); }
-    dots.forEach(function (d, k) { d.addEventListener("click", function () { goTo(k); play(); }); });
-    root.addEventListener("mouseenter", stop);
-    root.addEventListener("mouseleave", play);
-    if (!prefersReduced) play();
-  })();
 
   /* ============ Botão magnético + formulário ============ */
   var magBtn = document.getElementById("magnetic-btn");

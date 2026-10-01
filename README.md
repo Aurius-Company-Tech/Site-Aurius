@@ -10,7 +10,7 @@ Site institucional imersivo e cinematográfico da **AURIUS** — software house 
 - **Scroll suave** com Lenis em todo o site.
 - **Hero sem preloader**: proposta de valor, CTAs e prova social aparecem em < 1 s (entrada em CSS); a galáxia é montada depois, em momento ocioso, e entra com fade.
 - Linha do tempo **horizontal** do processo (Descoberta → Design → Desenvolvimento → Lançamento → Evolução) com um marcador de progresso percorrendo a linha conforme o scroll.
-- Portfólio com reveal em `clip-path` e parallax individual por card, contadores animados com partículas douradas, carrossel de depoimentos, botão magnético no CTA e constelação animada no footer.
+- Portfólio com reveal em `clip-path` e parallax individual por card, contadores animados com partículas douradas, botão magnético no CTA e constelação animada no footer.
 - Responsivo, com versão simplificada dos efeitos no mobile e suporte a `prefers-reduced-motion`.
 
 ## 🎨 Identidade visual
@@ -71,7 +71,7 @@ npx http-server -p 4174 -c-1
 2. **Serviços** — Sites · Aplicativos · ERP · E-commerce · Automação
 3. **Processo** — timeline horizontal em 5 etapas
 4. **Portfólio** — projetos em grid com parallax
-5. **Depoimentos** — carrossel com fade estelar
+5. **FAQ** — garantias e perguntas frequentes
 6. **Contato** — formulário glassmorphism com botão magnético
 7. **Footer** — constelação animada
 

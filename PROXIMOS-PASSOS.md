@@ -47,10 +47,10 @@ Já concluído nesta rodada:
   - Bonavides: _(a definir)_
   - Sacolaria: _(a definir)_
   - Triunfa: _(a definir)_ (tirar o selo "Em finalização" quando entregar)
-- [ ] **Depoimentos reais** (seção `#depoimentos`): nome, cargo, empresa, foto e, se possível, link do LinkedIn. Os 3 atuais são exemplos.
+- [ ] **Depoimentos reais** (a seção foi removida em 01/10/2026, ver abaixo): quando houver, recriar a seção com nome, cargo, empresa, foto e, se possível, link do LinkedIn. Está no histórico do Git (`git log -S "carousel"`).
 - [ ] **Faixa de logos de clientes** logo abaixo do hero.
 - [x] **Números inventados removidos** (01/10/2026): a faixa do hero e a seção `#numeros` ("120+ projetos", "80+ clientes", "8 anos", "99% de satisfação") eram texto de exemplo e não refletiam a empresa, que é nova. Só voltam com dados reais (ver ideias de substituição no PR).
-- [ ] **Depoimentos:** os 3 atuais também são de exemplo (nomes e resultados fictícios). Trocar por reais ou remover a seção `#depoimentos` até haver clientes dispostos a dar depoimento.
+- [x] **Depoimentos de exemplo removidos** (01/10/2026): a seção `#depoimentos` (3 depoimentos com nomes e resultados fictícios), o carrossel, o link no menu e o ponto do trilho saíram. Voltam só com depoimentos reais e autorizados.
 
 #### Ideias para ocupar o lugar dos números (anotadas em 01/10/2026, a fazer depois)
 A empresa é nova, então só entra o que for verdadeiro hoje. Sugestão de ordem: 1, 2 e 4.
@@ -66,7 +66,7 @@ A empresa é nova, então só entra o que for verdadeiro hoje. Sugestão de orde
 - [ ] (Opcional) **Página curta por case:** problema → solução → resultado.
 
 ### 3. Reduzir dúvidas
-Seção `#faq` (entre depoimentos e contato) pronta, com link "FAQ" no menu, no menu mobile, no trilho e no rodapé.
+Seção `#faq` (entre o portfólio e o contato) pronta, com link "FAQ" no menu, no menu mobile, no trilho e no rodapé.
 - [x] **FAQ** com 7 perguntas (`<details>` nativo, sem JS): custo, prazo, código, suporte, pagamento, escopo indefinido, mudanças.
 - [x] ~~Faixa "a partir de"~~: **descartada**. Decisão (01/10/2026): o valor é negociado com cada cliente conforme complexidade e tamanho, então o site não mostra preços.
 - [x] **Garantias** (`.guarantees`): resposta em 24h úteis, contrato com escopo fechado, código é do cliente, qualidade testada.
