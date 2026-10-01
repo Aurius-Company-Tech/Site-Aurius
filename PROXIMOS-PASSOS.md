@@ -10,7 +10,7 @@ O plano de melhorias do site tem 6 itens.
 |---|---|---|
 | 1 | Formulário que envia de verdade + WhatsApp | ✅ Feito (PR #4, mergeado) |
 | 2 | Prova social (portfólio, resultados, depoimentos, logos, números) | 🟡 Em andamento: portfólio feito (PR #5) |
-| 3 | Reduzir dúvidas do cliente (FAQ e garantias) | 🟡 Rascunho pronto em `feat/faq-garantias`: falta confirmar prazos e condições |
+| 3 | Reduzir dúvidas do cliente (FAQ e garantias) | 🟡 Pronto em `feat/faq-garantias` (PR a abrir) |
 | 4 | CTA de baixo compromisso ("Diagnóstico gratuito de 30 min" com agendamento) | ⬜ A fazer |
 | 5 | SEO e medição (página por serviço, Analytics/Plausible com eventos, blog) | ⬜ A fazer |
 | 6 | Polimento (hero com mockup/vídeo, Lighthouse mobile em produção) | ⬜ A fazer |
@@ -54,15 +54,11 @@ Já concluído nesta rodada:
 - [ ] (Opcional) **Página curta por case:** problema → solução → resultado.
 
 ### 3. Reduzir dúvidas
-Seção `#faq` (entre depoimentos e contato) já montada como **rascunho**, com link "FAQ" no menu, no menu mobile, no trilho e no rodapé.
+Seção `#faq` (entre depoimentos e contato) pronta, com link "FAQ" no menu, no menu mobile, no trilho e no rodapé.
 - [x] **FAQ** com 7 perguntas (`<details>` nativo, sem JS): custo, prazo, código, suporte, pagamento, escopo indefinido, mudanças.
 - [x] ~~Faixa "a partir de"~~: **descartada**. Decisão (01/10/2026): o valor é negociado com cada cliente conforme complexidade e tamanho, então o site não mostra preços.
-- [x] **Garantias** (`.guarantees`): resposta em 24h úteis, contrato com escopo fechado, código é do cliente, 90 dias de suporte.
-- [ ] **Confirmar com a Aurius antes do merge** (provisórios):
-  - Prazos citados na pergunta "Quanto tempo leva?": Site 3–5 semanas · E-commerce 6–10 semanas · Apps e ERP 3–6 meses.
-  - Suporte pós-entrega de **90 dias** sem custo.
-  - Pagamento **por etapas** (entrada + parcelas por entrega aprovada).
-  - Código, domínio e dados **em nome do cliente**.
+- [x] **Garantias** (`.guarantees`): resposta em 24h úteis, contrato com escopo fechado, código é do cliente, qualidade testada.
+- Decisão (01/10/2026): **preço, prazo, suporte e pagamento não têm números no site**. São tratados na negociação de cada projeto; o FAQ só diz que ficam definidos na proposta e no contrato.
 - [ ] (Opcional) Adicionar JSON-LD `FAQPage` para SEO.
 
 ### 4. CTA de baixo compromisso
