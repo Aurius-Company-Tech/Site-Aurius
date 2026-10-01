@@ -181,6 +181,7 @@ h1, h2, h3, h4 { font-family: var(--font-display); line-height: 1.12; font-weigh
 #mobile-menu.open a:nth-child(3) { transition-delay: .22s; }
 #mobile-menu.open a:nth-child(4) { transition-delay: .27s; }
 #mobile-menu.open a:nth-child(5) { transition-delay: .32s; }
+#mobile-menu.open a:nth-child(6) { transition-delay: .37s; }
 #mobile-menu .mobile-cta {
   margin-top: 6px; align-self: flex-start; font-size: 1rem; font-weight: 600; color: var(--bg);
   padding: 12px 24px; border-radius: 99px; background: linear-gradient(110deg, var(--gold-light), var(--gold));
@@ -536,6 +537,40 @@ section { position: relative; z-index: 5; padding: clamp(90px, 12vh, 150px) clam
 .carousel.is-paused .dot.is-active::after { animation-play-state: paused; }
 @keyframes dot-progress { from { transform: scaleX(0); } }
 
+/* ============ FAQ: GARANTIAS E DÚVIDAS ============ */
+#faq > :not(.section-head) { max-width: 1240px; margin-left: auto; margin-right: auto; }
+.faq-label {
+  font-family: var(--font-body); font-size: .78rem; font-weight: 400; letter-spacing: .28em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 22px;
+}
+.guarantees + .faq-label { margin-top: 72px; }
+.guarantees { list-style: none; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+.guarantees li {
+  display: flex; gap: 14px; align-items: flex-start; padding: 22px 20px; border-radius: var(--radius-card);
+  background: rgba(16, 15, 26, .55); border: 1px solid var(--border-soft);
+}
+.guarantees svg { width: 26px; height: 26px; flex-shrink: 0; color: var(--gold-light); margin-top: 1px; }
+.guarantees strong { display: block; font-size: .98rem; margin-bottom: 4px; }
+.guarantees span { display: block; color: var(--muted); font-size: .86rem; line-height: 1.5; }
+
+.faq-list { border-top: 1px solid var(--border-soft); }
+.faq-item { border-bottom: 1px solid var(--border-soft); }
+.faq-item summary {
+  position: relative; list-style: none; cursor: pointer; padding: 22px 48px 22px 0;
+  font-family: var(--font-display); font-size: clamp(1.02rem, 1.6vw, 1.18rem); font-weight: 600;
+  transition: color .3s;
+}
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-item summary:hover { color: var(--gold-light); }
+/* sinal de + que vira − ao abrir */
+.faq-item summary::before, .faq-item summary::after {
+  content: ""; position: absolute; right: 8px; top: 50%; width: 14px; height: 1.6px; margin-top: -.8px;
+  background: var(--gold-light); border-radius: 2px; transition: transform .35s var(--ease-out);
+}
+.faq-item summary::after { transform: rotate(90deg); }
+.faq-item[open] summary::after { transform: rotate(0deg); }
+.faq-item p { color: var(--muted); padding: 0 48px 24px 0; max-width: 70ch; }
+
 /* ============ CTA / CONTATO ============ */
 #contato { padding-bottom: 140px; }
 .cta-inner { max-width: 760px; margin: 0 auto; text-align: center; }
@@ -684,6 +719,8 @@ html[data-section="numeros"] .amb-a { opacity: .6; transform: translate(-40vw, 0
 html[data-section="numeros"] .amb-b { opacity: 1; transform: translate(0, 10vh) scale(1.1); }
 html[data-section="depoimentos"] .amb-a { opacity: 1; transform: translate(36vw, 20vh) scale(1); }
 html[data-section="depoimentos"] .amb-b { opacity: .45; transform: translate(-36vw, -30vh) scale(.7); }
+html[data-section="faq"] .amb-a { opacity: .85; transform: translate(-36vw, -24vh) scale(.9); }
+html[data-section="faq"] .amb-b { opacity: .6; transform: translate(38vw, 28vh) scale(.8); }
 html[data-section="contato"] .amb-a { opacity: 1; transform: translate(-30vw, 34vh) scale(1.05); }
 html[data-section="contato"] .amb-b { opacity: .9; transform: translate(34vw, -20vh) scale(.9); }
 
@@ -753,6 +790,7 @@ html[data-section]:not([data-section="hero"]) .section-rail { opacity: 1; pointe
   .card:last-child { grid-column: 1 / -1; }
   .portfolio-grid { grid-template-columns: repeat(2, 1fr); }
   .p-card:last-child { grid-column: 1 / -1; max-width: calc(50% - 15px); justify-self: center; }
+  .guarantees { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .footer-inner { grid-template-columns: 1fr 1fr; }
 }
 @media (max-width: 768px) {
@@ -769,6 +807,7 @@ html[data-section]:not([data-section="hero"]) .section-rail { opacity: 1; pointe
 }
 @media (max-width: 640px) {
   .cards-grid { grid-template-columns: 1fr; }
+  .guarantees { grid-template-columns: 1fr; }
 }
 @media (max-width: 520px) {
   #hero { padding-top: 96px; padding-bottom: 96px; }

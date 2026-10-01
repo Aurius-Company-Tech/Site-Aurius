@@ -1,6 +1,6 @@
 # Próximos passos: site Aurius
 
-Última atualização: 30/09/2026. Branch de trabalho: `feat/formulario-whatsapp`, com o **PR #5** aberto.
+Última atualização: 01/10/2026. PRs #5 e #6 mergeados. Branch de trabalho: `feat/faq-garantias` (item 3).
 
 ## Onde paramos
 
@@ -10,7 +10,7 @@ O plano de melhorias do site tem 6 itens.
 |---|---|---|
 | 1 | Formulário que envia de verdade + WhatsApp | ✅ Feito (PR #4, mergeado) |
 | 2 | Prova social (portfólio, resultados, depoimentos, logos, números) | 🟡 Em andamento: portfólio feito (PR #5) |
-| 3 | Reduzir dúvidas do cliente (FAQ, faixa de preço, garantias) | ⬜ A fazer |
+| 3 | Reduzir dúvidas do cliente (FAQ e garantias) | 🟡 Rascunho pronto em `feat/faq-garantias`: falta confirmar prazos e condições |
 | 4 | CTA de baixo compromisso ("Diagnóstico gratuito de 30 min" com agendamento) | ⬜ A fazer |
 | 5 | SEO e medição (página por serviço, Analytics/Plausible com eventos, blog) | ⬜ A fazer |
 | 6 | Polimento (hero com mockup/vídeo, Lighthouse mobile em produção) | ⬜ A fazer |
@@ -39,8 +39,8 @@ Já concluído nesta rodada:
 ## Para fazer
 
 ### 0. Fechar o PR #5
-- [ ] Conferir o CI do PR #5 e fazer o merge.
-- [ ] Depois do merge, criar uma branch nova a partir da `main` para cada próximo passo.
+- [x] PR #5 e PR #6 mergeados (01/10/2026).
+- [x] Branch nova `feat/faq-garantias` criada a partir da `main`.
 
 ### 2. Prova social (continuação)
 - [ ] **Resultado principal de cada case.** Trocar as descrições provisórias (`.p-result` no bloco `#portfolio` do `index.html`) por um resultado concreto, com número se possível (ex.: "+40% de vendas online").
@@ -54,9 +54,16 @@ Já concluído nesta rodada:
 - [ ] (Opcional) **Página curta por case:** problema → solução → resultado.
 
 ### 3. Reduzir dúvidas
-- [ ] **FAQ:** quanto custa, quanto tempo leva, de quem é o código, como funciona o suporte.
-- [ ] **Faixa "a partir de"** por tipo de projeto.
-- [ ] **Garantias:** prazo de resposta, contrato, suporte pós-entrega.
+Seção `#faq` (entre depoimentos e contato) já montada como **rascunho**, com link "FAQ" no menu, no menu mobile, no trilho e no rodapé.
+- [x] **FAQ** com 7 perguntas (`<details>` nativo, sem JS): custo, prazo, código, suporte, pagamento, escopo indefinido, mudanças.
+- [x] ~~Faixa "a partir de"~~: **descartada**. Decisão (01/10/2026): o valor é negociado com cada cliente conforme complexidade e tamanho, então o site não mostra preços.
+- [x] **Garantias** (`.guarantees`): resposta em 24h úteis, contrato com escopo fechado, código é do cliente, 90 dias de suporte.
+- [ ] **Confirmar com a Aurius antes do merge** (provisórios):
+  - Prazos citados na pergunta "Quanto tempo leva?": Site 3–5 semanas · E-commerce 6–10 semanas · Apps e ERP 3–6 meses.
+  - Suporte pós-entrega de **90 dias** sem custo.
+  - Pagamento **por etapas** (entrada + parcelas por entrega aprovada).
+  - Código, domínio e dados **em nome do cliente**.
+- [ ] (Opcional) Adicionar JSON-LD `FAQPage` para SEO.
 
 ### 4. CTA de baixo compromisso
 - [ ] **"Diagnóstico gratuito de 30 min"** com agendamento (Cal.com ou Calendly).

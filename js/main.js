@@ -261,7 +261,7 @@
     };
 
     // cabeçalhos de seção: parallax leve (fora da seção fixada do processo)
-    document.querySelectorAll("#servicos .section-head, #portfolio .section-head, #depoimentos .section-head").forEach(function (head) {
+    document.querySelectorAll("#servicos .section-head, #portfolio .section-head, #depoimentos .section-head, #faq .section-head").forEach(function (head) {
       gsap.fromTo(head, { y: 50 }, {
         y: -40, ease: "none",
         scrollTrigger: { trigger: head.parentElement, start: "top bottom", end: "center top", scrub: true }
@@ -272,7 +272,7 @@
   /* ============ Seção ativa: luz ambiente, nav, trilho ============ */
   (function activeSection() {
     var root = document.documentElement;
-    var ids = ["hero", "servicos", "processo", "portfolio", "numeros", "depoimentos", "contato"];
+    var ids = ["hero", "servicos", "processo", "portfolio", "numeros", "depoimentos", "faq", "contato"];
     var navList = document.querySelector(".nav-links");
     var indicator = document.querySelector(".nav-indicator");
     var navLinks = Array.prototype.slice.call(document.querySelectorAll(".nav-links a:not(.nav-cta)"));
