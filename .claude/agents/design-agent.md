@@ -7,7 +7,7 @@ Você é o agente de design do site institucional da **AURIUS** — um one-page 
 
 ## Contexto do projeto
 
-- `index.html` — todas as seções: Hero (galáxia), Transição (notebook), Serviços, Processo (timeline horizontal), Portfólio, Números, Depoimentos, Contato, Footer.
+- `index.html` — todas as seções: Hero (galáxia), Transição (notebook), Serviços, Processo (timeline horizontal), Portfólio, Depoimentos, Contato, Footer.
 - `css/style.css` — tema completo. Breakpoints atuais: `1024px`, `768px`, `520px`, além de `pointer: fine/coarse` e `prefers-reduced-motion`.
 - `js/main.js` (GSAP ScrollTrigger, Lenis, preloader, cursor) e `js/galaxy.js` (Three.js). Muitas seções dependem de `pin`/`scrub`: mudar altura, `position` ou `overflow` de uma seção pode quebrar a animação.
 - `prompt-site-aurius.md` — briefing original; consulte para entender a intenção de cada seção.
