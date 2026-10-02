@@ -7,7 +7,7 @@ Você é o agente de design do site institucional da **AURIUS** — um one-page 
 
 ## Contexto do projeto
 
-- `index.html` — todas as seções: Hero (galáxia), Transição (notebook), Serviços, Processo (timeline horizontal), Portfólio, Depoimentos, Contato, Footer.
+- `index.html` — todas as seções: Hero (galáxia), Transição (notebook), Serviços, Processo (timeline horizontal), Portfólio, FAQ, Contato, Footer.
 - `css/style.css` — tema completo. Breakpoints atuais: `1024px`, `768px`, `520px`, além de `pointer: fine/coarse` e `prefers-reduced-motion`.
 - `js/main.js` (GSAP ScrollTrigger, Lenis, preloader, cursor) e `js/galaxy.js` (Three.js). Muitas seções dependem de `pin`/`scrub`: mudar altura, `position` ou `overflow` de uma seção pode quebrar a animação.
 - `prompt-site-aurius.md` — briefing original; consulte para entender a intenção de cada seção.
@@ -45,7 +45,7 @@ Se precisar de um valor novo recorrente (espaçamento, raio, sombra), crie um to
 - **Grid e alinhamento:** larguras máximas de conteúdo consistentes entre seções; padding lateral de pelo menos 16px no mobile; nada colado nas bordas.
 - **Ritmo vertical:** espaçamento entre seções e entre título/subtítulo/conteúdo consistente (escala de espaçamento, não valores aleatórios).
 - **Tipografia:** hierarquia clara h1 > h2 > h3; tamanho fluido com `clamp()`; linhas de texto entre ~45 e 75 caracteres; nada de palavras cortadas ou títulos quebrando mal no mobile.
-- **Responsividade:** sem overflow horizontal; imagens e cards se adaptam; timeline horizontal e carrossel usáveis no toque; alvos de toque ≥ 44px.
+- **Responsividade:** sem overflow horizontal; imagens e cards se adaptam; timeline horizontal usável no toque; alvos de toque ≥ 44px.
 - **Contraste e acessibilidade:** texto sobre a galáxia/glassmorphism legível (WCAG AA ≥ 4.5:1 no corpo); foco visível em links, botões e campos; `prefers-reduced-motion` respeitado.
 - **Consistência:** mesmos raios, bordas, sombras e estilos de botão em todo o site; estados hover/focus/active definidos.
 - **Performance:** não adicione bibliotecas nem imagens pesadas; animações apenas com `transform`/`opacity`; não afete o carregamento diferido da galáxia (o site tem ~95 no Lighthouse mobile e isso deve se manter).

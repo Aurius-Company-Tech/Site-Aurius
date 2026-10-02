@@ -468,44 +468,6 @@ section { position: relative; z-index: 5; padding: clamp(90px, 12vh, 150px) clam
 .p-info span { color: var(--gold); font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; white-space: nowrap; }
 .p-result { padding: 8px 6px 0; color: var(--muted); font-size: .9rem; line-height: 1.55; }
 
-/* ============ DEPOIMENTOS ============ */
-.carousel { position: relative; max-width: 780px; margin: 0 auto; min-height: 300px; }
-.slide {
-  position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; gap: 30px;
-  opacity: 0; visibility: hidden; transform: translateY(-18px);
-  transition: opacity .6s ease, transform .8s var(--ease-out), visibility .8s;
-  text-align: center; padding: 10px 16px;
-}
-.slide.is-active { opacity: 1; visibility: visible; transform: none; transition-delay: .2s; }
-.slide blockquote {
-  font-family: var(--font-display); font-size: clamp(1.1rem, 2.2vw, 1.5rem); font-weight: 400; line-height: 1.5;
-  color: var(--text);
-}
-.slide figcaption { display: flex; align-items: center; justify-content: center; gap: 15px; text-align: left; }
-.slide figcaption strong { display: block; font-size: .98rem; }
-.slide figcaption span:not(.avatar) { color: var(--muted); font-size: .82rem; }
-.avatar {
-  width: 48px; height: 48px; border-radius: 50%; display: grid; place-items: center;
-  font-family: var(--font-display); font-weight: 600; font-size: .95rem; color: #fff;
-  box-shadow: 0 0 20px rgba(124, 58, 237, .4);
-}
-.av1 { background: linear-gradient(135deg, var(--gold), var(--violet)); }
-.av2 { background: linear-gradient(135deg, var(--violet), var(--purple-deep)); }
-.av3 { background: linear-gradient(135deg, var(--lilac), var(--gold)); }
-.carousel-dots { position: absolute; bottom: -34px; left: 50%; transform: translateX(-50%); display: flex; gap: 4px; }
-/* alvo de toque de 44px; a barra visível é o ::before, o progresso do autoplay é o ::after */
-.dot { position: relative; width: 44px; height: 44px; padding: 0; }
-.dot::before, .dot::after {
-  content: ""; position: absolute; left: 6px; right: 6px; top: 50%; height: 3px; margin-top: -1.5px; border-radius: 99px;
-}
-.dot::before { background: rgba(160, 160, 176, .3); transition: background .4s; }
-.dot:hover::before { background: rgba(160, 160, 176, .6); }
-.dot::after { background: var(--grad); transform: scaleX(0); transform-origin: 0 50%; box-shadow: 0 0 10px rgba(242, 226, 126, .45); }
-.dot.is-active::after { transform: scaleX(1); }
-.carousel.is-playing .dot.is-active::after { animation: dot-progress var(--slide-ms, 5600ms) linear both; }
-.carousel.is-paused .dot.is-active::after { animation-play-state: paused; }
-@keyframes dot-progress { from { transform: scaleX(0); } }
-
 /* ============ FAQ: GARANTIAS E DÚVIDAS ============ */
 #faq > :not(.section-head) { max-width: 1240px; margin-left: auto; margin-right: auto; }
 .faq-label {
@@ -684,8 +646,6 @@ html[data-section="processo"] .amb-a { opacity: .8; transform: translate(34vw, -
 html[data-section="processo"] .amb-b { opacity: 1; transform: translate(-30vw, 30vh) scale(1); }
 html[data-section="portfolio"] .amb-a { opacity: 1; transform: translate(0, -42vh) scale(1.1); }
 html[data-section="portfolio"] .amb-b { opacity: .5; transform: translate(-42vw, 40vh) scale(.7); }
-html[data-section="depoimentos"] .amb-a { opacity: 1; transform: translate(36vw, 20vh) scale(1); }
-html[data-section="depoimentos"] .amb-b { opacity: .45; transform: translate(-36vw, -30vh) scale(.7); }
 html[data-section="faq"] .amb-a { opacity: .85; transform: translate(-36vw, -24vh) scale(.9); }
 html[data-section="faq"] .amb-b { opacity: .6; transform: translate(38vw, 28vh) scale(.8); }
 html[data-section="contato"] .amb-a { opacity: 1; transform: translate(-30vw, 34vh) scale(1.05); }
@@ -757,7 +717,6 @@ html[data-section]:not([data-section="hero"]) .section-rail { opacity: 1; pointe
   #menu-toggle { display: flex; }
   .form-row { grid-template-columns: 1fr; gap: 0; }
   .step:nth-child(odd), .step:nth-child(even) { transform: none; }
-  .carousel { min-height: 360px; }
   .amb { width: 130vw; height: 130vw; margin: -65vw 0 0 -65vw; }
 }
 @media (max-width: 640px) {
