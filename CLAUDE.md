@@ -4,11 +4,11 @@ One-page estático (`index.html`, `css/style.css`, `js/main.js`, `js/galaxy.js`)
 
 **Retomando o trabalho?** Leia `PROXIMOS-PASSOS.md`: status do plano de melhorias, o que falta e como configurar outra máquina.
 
-## Regra obrigatória: testar o formulário após qualquer alteração
+## Testar o formulário só quando ele mudar
 
-Depois de **toda** alteração no site (HTML, CSS ou JS), antes de commitar, rode o agente **`form-tester`** (`.claude/agents/form-tester.md`). Ele valida o formulário de contato de ponta a ponta: envio real para `auriusmedical@gmail.com` via Web3Forms, todos os campos chegando com os valores corretos, validação, fallback para o WhatsApp, links de contato, lint e layout mobile. Se o agente ainda não estiver disponível na sessão, rode um agente `general-purpose` instruído a ler e seguir esse arquivo.
+O agente **`form-tester`** (`.claude/agents/form-tester.md`) faz um envio real para `auriusmedical@gmail.com` via Web3Forms e confere todos os campos, a validação e o fallback para o WhatsApp. Ele gasta tokens, então **só rode quando a alteração mexer no formulário** (o bloco `#contact-form` no HTML, seus estilos ou o JS de envio/validação, ou os links de contato). Para as demais alterações, `npm test` basta.
 
-Não commite se o `form-tester` reportar FALHOU.
+Se o `form-tester` rodar e reportar FALHOU, não commite.
 
 ## Contatos
 
