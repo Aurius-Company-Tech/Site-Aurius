@@ -26,7 +26,7 @@ Já concluído nesta rodada:
   - se o envio falhar, oferece o WhatsApp.
 - **WhatsApp +55 96 98116-3599:** botão flutuante, link ao lado do formulário e link no rodapé.
 - **E-mail do rodapé** trocado para `auriusmedical@gmail.com`.
-- **Agente de testes `form-tester`** (`.claude/agents/form-tester.md`) e a regra no `CLAUDE.md` de rodá-lo depois de toda alteração.
+- **Agente de testes `form-tester`** (`.claude/agents/form-tester.md`) e a regra no `CLAUDE.md` de rodá-lo só quando houver mudanças no formulário.
 - **Portfólio com 3 cases reais** em cards-link com moldura de navegador e troca de print no hover:
   - Bonavides Fine Art (e-commerce): https://bonavidesfineart.com.br/
   - Sacolaria Macapá (e-commerce): https://www.sacolariamacapa.com/
@@ -54,7 +54,7 @@ Já concluído nesta rodada:
 
 #### Ideias para ocupar o lugar dos números (anotadas em 01/10/2026, a fazer depois)
 A empresa é nova, então só entra o que for verdadeiro hoje. Sugestão de ordem: 1, 2 e 4.
-1. [ ] **Faixa de fatos no hero:** "3 projetos no ar", "5 frentes de serviço", "Resposta em até 24h úteis" (todos já são fatos do site).
+1. [x] **Faixa de fatos no hero** (feita em 02/10/2026, com "3 projetos recentes"): "3 projetos no ar", "5 frentes de serviço", "Resposta em até 24h úteis" (todos já são fatos do site).
 2. [ ] **Seção "Quem somos":** história da Aurius, o que ela acredita e as pessoas por trás (foto, nome e LinkedIn dos sócios).
 3. [ ] **Mais detalhe em cada case do portfólio:** problema do cliente, o que foi construído e tecnologias usadas.
 4. [ ] **"Como trabalhamos":** contrato com escopo fechado, código no nome do cliente e entregas por etapa com aprovação do cliente.
@@ -94,7 +94,7 @@ Domínio oficial: **https://auriuscompany.com.br** (GitHub Pages, DNS na Hosting
 ### 6. Polimento
 - [ ] **Hero** com mockup ou vídeo curto de um produto real.
 - [ ] **Lighthouse mobile em produção.** Localmente fica em cerca de 60 por causa da máquina; o CI mede em outro ambiente.
-- [ ] **Links das redes sociais no rodapé:** ainda estão com `href="#"` (Instagram, LinkedIn, GitHub).
+- [x] **Redes sociais no rodapé** (02/10/2026): só o Instagram (https://www.instagram.com/auriuscompany/) existe; LinkedIn e GitHub foram removidos. Recriar quando houver perfis.
 - [x] **Mobile (390px):** o botão flutuante do WhatsApp cobria o texto de LGPD do formulário. Corrigido: o `.wa-float` agora some enquanto o `#contact-form` está na tela.
 
 ### Pendências externas
@@ -114,7 +114,7 @@ Domínio oficial: **https://auriuscompany.com.br** (GitHub Pages, DNS na Hosting
 3. **Servidor local:** `npx http-server . -p 4174 -c-1` e abrir http://localhost:4174.
 4. **Testes:**
    - `npm test` roda html-validate, stylelint, eslint e linkinator.
-   - Depois de **qualquer** alteração, rodar o agente **`form-tester`** no Claude Code. Ele faz 1 envio real do formulário e confere todos os campos. Não commitar se ele reprovar.
+   - Só quando mexer no **formulário** (HTML, estilos, JS de envio ou links de contato), rodar o agente **`form-tester`** no Claude Code. Ele faz 1 envio real e confere todos os campos. Não commitar se ele reprovar.
 5. **Prints originais do portfólio:** os PNGs de `assets/portifolio/**` estão no `.gitignore` e **não vêm pelo Git**. Se precisar reprocessar, copie a pasta manualmente desta máquina. O site usa só os `.webp`, que estão versionados.
 6. **Gerar novos WebPs para o portfólio:** use o `sharp` fora do projeto (não é dependência do site).
    - Cortes 16:10, larguras 640 e 1200, qualidade 78.
