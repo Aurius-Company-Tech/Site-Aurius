@@ -349,6 +349,8 @@ section { position: relative; z-index: 5; padding: clamp(90px, 12vh, 150px) clam
   content: ""; display: inline-block; width: 6px; height: 6px; border-radius: 50%; margin: 0 10px 2px 0;
   background: var(--gold-light); box-shadow: 0 0 10px rgba(242, 226, 126, .6);
 }
+.card-link { display: inline-block; margin-bottom: 18px; font-size: .9rem; color: var(--gold-light); transition: transform .3s; }
+.card-link:hover { transform: translateX(4px); text-decoration: underline; text-underline-offset: 3px; }
 .card-tag {
   font-size: .74rem; letter-spacing: .1em; color: var(--gold);
   border: 1px solid rgba(217, 194, 90, .3); border-radius: 99px; padding: 5px 13px; display: inline-block;
