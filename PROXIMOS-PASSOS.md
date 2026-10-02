@@ -12,7 +12,7 @@ O plano de melhorias do site tem 6 itens.
 | 2 | Prova social (portfólio, resultados, depoimentos, logos) | 🟡 Em andamento: portfólio feito (PR #5) |
 | 3 | Reduzir dúvidas do cliente (FAQ e garantias) | ✅ Feito (PR #8, mergeado) |
 | 4 | CTA de baixo compromisso ("Diagnóstico gratuito de 30 min" com agendamento) | ✅ Feito pelo WhatsApp (PR #9); agenda online fica para depois |
-| 5 | SEO e medição (página por serviço, Analytics com eventos, blog) | 🟡 SEO técnico + Umami em `feat/seo-analytics`; páginas por serviço a fazer |
+| 5 | SEO e medição (página por serviço, Analytics com eventos, blog) | ✅ SEO técnico, Umami e páginas por serviço feitos; blog opcional |
 | 6 | Polimento (hero com mockup/vídeo, Lighthouse mobile em produção) | ⬜ A fazer |
 
 Já concluído nesta rodada:
@@ -88,7 +88,8 @@ Domínio oficial: **https://auriuscompany.com.br** (GitHub Pages, DNS na Hosting
 - [x] **Umami Cloud** (sem cookies, sem banner LGPD), website ID `b2aa8368-c082-4117-b3c4-4171c8c0a95f`, `data-domains` restrito ao domínio (testes locais não contam).
   - Eventos: `cta-proposta` (local: menu, menu-mobile, hero), `cta-diagnostico` (hero, formulario), `whatsapp` (flutuante, rodape, falha-formulario), `portfolio` (case), `formulario-enviado` (tipo, orcamento, prazo, sem dados pessoais), `formulario-falhou`.
 - [ ] Depois do merge: enviar o `sitemap.xml` no **Google Search Console** e validar a prévia no **Facebook Sharing Debugger** / **LinkedIn Post Inspector**.
-- [ ] **Página por serviço:** ERP sob medida, e-commerce, apps, automação com IA (PR separado).
+- [x] **Página por serviço** (02/10/2026): `sites/`, `aplicativos/`, `erp-sob-medida/`, `ecommerce/`, `automacao-ia/` (cada uma com `index.html`, canonical, JSON-LD `Service`/`BreadcrumbList`/`FAQPage`, eventos Umami). Usam `css/style.css` + `css/servico.css`, sem JS e sem galáxia. Foram geradas por um script fora do repo: para mudar o texto, edite o HTML de cada página direto. Os cards e o rodapé do `index.html` linkam para elas, e o `sitemap.xml` lista as 6 URLs.
+- [ ] **Reenviar o `sitemap.xml` no Google Search Console** depois do deploy (agora com as páginas de serviço).
 - [ ] (Opcional) Blog/conteúdo.
 
 ### 6. Polimento

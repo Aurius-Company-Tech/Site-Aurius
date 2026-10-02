@@ -69,7 +69,9 @@ jobs:
       - name: Rodar Lighthouse
         uses: treosh/lighthouse-ci-action@v12
         with:
-          urls: http://127.0.0.1:8080/index.html
+          urls: |
+            http://127.0.0.1:8080/index.html
+            http://127.0.0.1:8080/ecommerce/index.html
           uploadArtifacts: true
           temporaryPublicStorage: true
           budgetPath: ./lighthouse-budget.json

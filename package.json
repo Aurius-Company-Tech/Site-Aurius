@@ -6,8 +6,8 @@
   "scripts": {
     "lint:js": "eslint js",
     "lint:css": "stylelint \"css/**/*.css\"",
-    "lint:html": "html-validate \"*.html\"",
-    "lint:links": "linkinator index.html --retry --retry-errors --retry-errors-count 5 --skip \"wa\\.me|^https://auriuscompany\\.com\\.br/\"",
+    "lint:html": "html-validate \"*.html\" \"*/index.html\"",
+    "lint:links": "linkinator index.html sites/index.html aplicativos/index.html erp-sob-medida/index.html ecommerce/index.html automacao-ia/index.html --retry --retry-errors --retry-errors-count 5 --skip \"wa\\.me|^https://auriuscompany\\.com\\.br/\"",
     "test": "npm run lint:html && npm run lint:css && npm run lint:js && npm run lint:links"
   },
   "repository": {
